@@ -59,6 +59,8 @@ class Settings(BaseSettings):
     enable_docs: bool = True
 
     demo_datasets_dir: Path = REPO_DIR / "datasets" / "demo"
+    # Serve a built frontend (frontend/dist) from the API process. Unset = API only.
+    static_dir: Path | None = None
 
     # Optional external language-model explanations. Disabled by default.
     ai_provider: Literal["none", "anthropic"] = "none"

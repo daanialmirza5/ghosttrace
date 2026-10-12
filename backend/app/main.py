@@ -22,6 +22,7 @@ from app.core.security import (
     RateLimitMiddleware,
     SecurityHeadersMiddleware,
 )
+from app.core.static import mount_frontend
 from app.services.imports import purge_expired_imports
 
 logger = logging.getLogger("ghosttrace")
@@ -95,6 +96,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     register_error_handlers(app)
     app.include_router(api_router)
+    if settings.static_dir is not None:
+        mount_frontend(app, settings.static_dir)
     return app
 
 

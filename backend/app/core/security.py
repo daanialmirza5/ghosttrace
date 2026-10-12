@@ -170,6 +170,15 @@ SECURITY_HEADERS: list[tuple[bytes, bytes]] = [
     (b"cross-origin-resource-policy", b"same-site"),
 ]
 API_CSP = (b"content-security-policy", b"default-src 'none'; frame-ancestors 'none'")
+# The single-page app: same-origin scripts and API calls only (inline styles are used by
+# the graph and chart libraries). Interactive API docs load assets from a CDN and are exempt.
+APP_CSP = (
+    b"content-security-policy",
+    b"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+    b"img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; "
+    b"base-uri 'self'; frame-ancestors 'none'",
+)
+DOCS_PATHS = ("/docs", "/redoc")
 
 
 class SecurityHeadersMiddleware:
@@ -180,14 +189,19 @@ class SecurityHeadersMiddleware:
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
-        is_api = scope.get("path", "").startswith("/api/")
+        path = scope.get("path", "")
+        csp = (
+            API_CSP
+            if path.startswith("/api/")
+            else (None if path.startswith(DOCS_PATHS) else APP_CSP)
+        )
 
         async def with_headers(message: Message) -> None:
             if message["type"] == "http.response.start":
                 headers = list(message.get("headers", []))
                 headers += SECURITY_HEADERS
-                if is_api:
-                    headers.append(API_CSP)
+                if csp is not None:
+                    headers.append(csp)
                 message["headers"] = headers
             await send(message)
 

@@ -1,0 +1,55 @@
+# docker compose up --build app                          -> http://localhost:8000 (SQLite volume)
+# docker compose --profile postgres up --build postgres app-postgres -> http://localhost:8001
+# Ports can be changed with GHOSTTRACE_PORT and GHOSTTRACE_PG_APP_PORT.
+services:
+  app:
+    build: .
+    image: ghosttrace:local
+    ports:
+      - "${GHOSTTRACE_PORT:-8000}:8000"
+    environment:
+      GHOSTTRACE_DATABASE_URL: ${GHOSTTRACE_DATABASE_URL:-sqlite:////data/ghosttrace.db}
+      GHOSTTRACE_RETENTION_HOURS: ${GHOSTTRACE_RETENTION_HOURS:-24}
+      GHOSTTRACE_RATE_LIMIT_PER_MINUTE: ${GHOSTTRACE_RATE_LIMIT_PER_MINUTE:-60}
+      GHOSTTRACE_CORS_ORIGINS: ${GHOSTTRACE_CORS_ORIGINS:-http://localhost:8000}
+      GHOSTTRACE_AI_PROVIDER: ${GHOSTTRACE_AI_PROVIDER:-none}
+    volumes:
+      - ghosttrace-data:/data
+    mem_limit: 512m
+    restart: unless-stopped
+
+  postgres:
+    profiles: ["postgres"]
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_DB: ghosttrace
+      POSTGRES_USER: ghosttrace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-locally}
+    volumes:
+      - ghosttrace-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ghosttrace"]
+      interval: 5s
+      retries: 10
+    mem_limit: 256m
+
+  app-postgres:
+    profiles: ["postgres"]
+    build:
+      context: .
+      args:
+        INSTALL_POSTGRES: "1"
+    image: ghosttrace:local-postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${GHOSTTRACE_PG_APP_PORT:-8001}:8000"
+    environment:
+      GHOSTTRACE_DATABASE_URL: postgresql+psycopg://ghosttrace:${POSTGRES_PASSWORD:-change-me-locally}@postgres:5432/ghosttrace
+      GHOSTTRACE_CORS_ORIGINS: http://localhost:${GHOSTTRACE_PG_APP_PORT:-8001}
+    mem_limit: 512m
+
+volumes:
+  ghosttrace-data:
+  ghosttrace-pg:
