@@ -1,0 +1,7 @@
+# Normalise line endings so patches and checkouts behave the same on Windows and Linux.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary
