@@ -70,7 +70,7 @@ Business logic lives in pure, database-free services (`backend/app/services`) th
 **Requirements:** Python 3.12, Node.js 22 and Git. About 400 MB of disk for dependencies (257 MB `node_modules`, 123 MB Python venv, plus a browser download only if you run Playwright without Microsoft Edge). The app itself uses well under 1 GB of RAM. Only Python 3.12 has been tested.
 
 ```powershell
-git clone https://github.com/<your-github-username>/ghosttrace.git
+git clone https://github.com/daanialmirza5/ghosttrace.git
 cd ghosttrace
 
 # Backend: terminal 1
@@ -189,5 +189,3 @@ The single container suits Render's free web service, with the caveats that it s
 * A labelled corpus of real, anonymised incidents for calibrated evaluation.
 
 Released under the [MIT License](LICENSE).
-
-This project was developed with AI assistance (Anthropic's Claude).
