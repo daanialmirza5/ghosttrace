@@ -45,6 +45,7 @@ known-third-party = ["alembic"]
 [tool.ruff.lint.per-file-ignores]
 "app/tests/**" = ["S", "B"]
 "scripts/**" = ["S"]
+"app/simulation/**" = ["S311"]
 
 [tool.mypy]
 python_version = "3.12"
