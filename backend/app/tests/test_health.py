@@ -33,9 +33,9 @@ def test_ready_reports_pending_migrations(tmp_path: Path) -> None:
         response = client.get("/api/v1/ready")
     body = response.json()
     schema = next(check for check in body["checks"] if check["name"] == "schema")
-    # With no migrations defined yet both sides are empty; once migrations exist an
-    # un-migrated database must be reported as not ready.
-    assert response.status_code == (200 if schema["ok"] else 503)
+    assert response.status_code == 503
+    assert body["status"] == "not_ready"
+    assert schema == {"name": "schema", "ok": False, "detail": "migrations pending"}
 
 
 def test_unknown_route_returns_structured_404(client: TestClient) -> None:
