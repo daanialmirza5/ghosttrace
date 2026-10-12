@@ -57,11 +57,11 @@ class Settings(BaseSettings):
     demo_datasets_dir: Path = REPO_DIR / "datasets" / "demo"
 
     # Optional external language-model explanations. Disabled by default.
-    ai_provider: Literal["none", "anthropic", "openai_compatible"] = "none"
+    ai_provider: Literal["none", "anthropic"] = "none"
+    # Optional: without it the Anthropic SDK reads ANTHROPIC_API_KEY or an `ant` CLI profile.
     ai_api_key: SecretStr | None = None
-    ai_model: str = "claude-haiku-5-5"
-    ai_base_url: str | None = None
-    ai_timeout_seconds: float = Field(default=20.0, gt=0, le=120)
+    ai_model: str = "claude-opus-5-5"
+    ai_timeout_seconds: float = Field(default=60.0, gt=0, le=300)
     ai_max_retries: int = Field(default=2, ge=0, le=5)
     # When false (default) raw event messages are never sent to the provider; only
     # structured, GhostTrace-computed facts (service names, counts, event IDs) are.
@@ -80,7 +80,7 @@ class Settings(BaseSettings):
 
     @property
     def ai_enabled(self) -> bool:
-        return self.ai_provider != "none" and self.ai_api_key is not None
+        return self.ai_provider != "none"
 
 
 @lru_cache

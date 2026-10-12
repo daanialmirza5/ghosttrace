@@ -18,9 +18,9 @@ def upload(client: TestClient, name: str) -> dict:
 @pytest.fixture
 def incident_id(client: TestClient) -> str:
     imported = upload(client, "downstream-api-timeout")
-    return client.get("/api/v1/incidents", params={"import_id": imported["id"]}).json()["items"][
-        0
-    ]["id"]
+    return client.get("/api/v1/incidents", params={"import_id": imported["id"]}).json()["items"][0][
+        "id"
+    ]
 
 
 def test_json_report_cites_only_existing_events(client: TestClient, incident_id: str) -> None:
@@ -69,9 +69,9 @@ def test_markdown_report_and_download(client: TestClient, incident_id: str) -> N
 def test_report_with_comparison(client: TestClient) -> None:
     healthy = upload(client, "healthy-control")
     failed = upload(client, "faulty-deployment")
-    incident = client.get("/api/v1/incidents", params={"import_id": failed["id"]}).json()[
-        "items"
-    ][0]
+    incident = client.get("/api/v1/incidents", params={"import_id": failed["id"]}).json()["items"][
+        0
+    ]
     comparison = client.post(
         "/api/v1/comparisons",
         json={"baseline": {"import_id": healthy["id"]}, "target": {"import_id": failed["id"]}},
@@ -101,9 +101,10 @@ def test_unknown_comparison_and_report(client: TestClient, incident_id: str) -> 
     )
     assert missing.status_code == 404
     assert client.get("/api/v1/reports/rep_missing").status_code == 404
-    assert client.post(
-        f"/api/v1/incidents/{incident_id}/reports", json={"format": "pdf"}
-    ).status_code == 422
+    assert (
+        client.post(f"/api/v1/incidents/{incident_id}/reports", json={"format": "pdf"}).status_code
+        == 422
+    )
 
 
 def test_markdown_escaping_neutralises_injection() -> None:

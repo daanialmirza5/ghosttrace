@@ -49,7 +49,7 @@ def _parse(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def _narrative(incident: IncidentRecord) -> str:
+def narrative(incident: IncidentRecord) -> str:
     hypotheses = incident.hypotheses
     if incident.evidence_status == "insufficient" or not hypotheses:
         return (
@@ -235,7 +235,7 @@ def build_report_data(
             "event_count": incident.event_count,
             "services": incident.services,
         },
-        "narrative": {"source": "deterministic_template", "text": _narrative(incident)},
+        "narrative": {"source": "deterministic_template", "text": narrative(incident)},
         "impacted_services": impacted,
         "timeline": timeline,
         "hypotheses": incident.hypotheses,
