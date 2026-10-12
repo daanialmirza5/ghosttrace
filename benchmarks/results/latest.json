@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10T17:04:03.647834+00:00",
+  "generated_at": "2026-10-10T17:34:27.536838+00:00",
   "seeds": [
     2001,
     2002,
@@ -55,7 +55,7 @@
       "runs": 80,
       "fault_runs": 50,
       "detection_recall": 1.0,
-      "top1_accuracy": 0.98,
+      "top1_accuracy": 0.94,
       "top3_recall": 1.0,
       "insufficient_evidence_abstention_rate": 1.0,
       "control_runs": 20,
@@ -75,12 +75,12 @@
   "performance": {
     "total_events": 577081,
     "events_per_run_median": 2376.0,
-    "ingest_ms_p50": 221.7,
-    "ingest_ms_p95": 321.7,
-    "analysis_ms_p50": 51.1,
-    "analysis_ms_p95": 87.6,
-    "analysis_ms_max": 149.7,
-    "events_per_second_end_to_end": 8930.0,
+    "ingest_ms_p50": 342.3,
+    "ingest_ms_p95": 614.0,
+    "analysis_ms_p50": 84.8,
+    "analysis_ms_p95": 171.4,
+    "analysis_ms_max": 303.1,
+    "events_per_second_end_to_end": 5355.0,
     "tracemalloc_peak_mb_largest_run": 9.4,
     "largest_run_events": 3362
   },
@@ -238,9 +238,28 @@
     "stress/cache-failure": {
       "runs": 10,
       "metric": "top1_correct",
-      "rate": 1.0,
+      "rate": 0.8,
       "top3_recall": 1.0,
-      "misses": []
+      "misses": [
+        {
+          "seed": 2003,
+          "top3": [
+            "orders-service",
+            "inventory-service",
+            "redis-cache"
+          ],
+          "status": "ambiguous"
+        },
+        {
+          "seed": 2004,
+          "top3": [
+            "orders-service",
+            "redis-cache",
+            "web-frontend"
+          ],
+          "status": "ambiguous"
+        }
+      ]
     },
     "stress/healthy-control": {
       "runs": 10,
@@ -291,7 +310,7 @@
       ]
     }
   },
-  "wall_clock_seconds": 109.3,
+  "wall_clock_seconds": 180.3,
   "runs": [
     {
       "scenario": "db-connection-exhaustion",
@@ -309,8 +328,8 @@
         "orders-db"
       ],
       "top_score": 0.689,
-      "ingest_ms": 225.38,
-      "analysis_ms": 54.09,
+      "ingest_ms": 308.2,
+      "analysis_ms": 69.03,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -331,8 +350,8 @@
         "payments-service"
       ],
       "top_score": 0.61,
-      "ingest_ms": 161.63,
-      "analysis_ms": 50.51,
+      "ingest_ms": 261.71,
+      "analysis_ms": 79.4,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -354,8 +373,8 @@
         "orders-service"
       ],
       "top_score": 0.799,
-      "ingest_ms": 158.09,
-      "analysis_ms": 37.32,
+      "ingest_ms": 252.72,
+      "analysis_ms": 70.57,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -377,8 +396,8 @@
         "api-gateway"
       ],
       "top_score": 0.59,
-      "ingest_ms": 179.4,
-      "analysis_ms": 62.16,
+      "ingest_ms": 303.75,
+      "analysis_ms": 107.48,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -399,9 +418,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.607,
-      "ingest_ms": 164.96,
-      "analysis_ms": 58.77,
+      "top_score": 0.577,
+      "ingest_ms": 348.08,
+      "analysis_ms": 116.92,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -419,8 +438,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 156.23,
-      "analysis_ms": 24.61,
+      "ingest_ms": 316.79,
+      "analysis_ms": 48.16,
       "false_positive": false
     },
     {
@@ -441,8 +460,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 89.41,
-      "analysis_ms": 12.62,
+      "ingest_ms": 190.41,
+      "analysis_ms": 28.26,
       "abstained": true
     },
     {
@@ -459,8 +478,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 167.03,
-      "analysis_ms": 26.12,
+      "ingest_ms": 338.31,
+      "analysis_ms": 54.98,
       "false_positive": false
     },
     {
@@ -479,8 +498,8 @@
         "orders-db"
       ],
       "top_score": 0.694,
-      "ingest_ms": 263.52,
-      "analysis_ms": 86.86,
+      "ingest_ms": 438.2,
+      "analysis_ms": 142.43,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -501,8 +520,8 @@
         "payments-service"
       ],
       "top_score": 0.601,
-      "ingest_ms": 221.73,
-      "analysis_ms": 51.09,
+      "ingest_ms": 494.4,
+      "analysis_ms": 104.47,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -524,8 +543,8 @@
         "web-frontend"
       ],
       "top_score": 0.84,
-      "ingest_ms": 209.86,
-      "analysis_ms": 53.1,
+      "ingest_ms": 492.43,
+      "analysis_ms": 120.63,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -547,8 +566,8 @@
         "api-gateway"
       ],
       "top_score": 0.485,
-      "ingest_ms": 244.16,
-      "analysis_ms": 56.03,
+      "ingest_ms": 626.12,
+      "analysis_ms": 181.98,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -566,12 +585,12 @@
       "evidence_status": "sufficient",
       "top3": [
         "redis-cache",
-        "orders-service",
-        "inventory-db"
+        "inventory-db",
+        "orders-service"
       ],
-      "top_score": 0.597,
-      "ingest_ms": 206.07,
-      "analysis_ms": 55.7,
+      "top_score": 0.567,
+      "ingest_ms": 550.63,
+      "analysis_ms": 152.48,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -589,8 +608,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 239.02,
-      "analysis_ms": 36.17,
+      "ingest_ms": 347.96,
+      "analysis_ms": 49.46,
       "false_positive": false
     },
     {
@@ -611,8 +630,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 123.48,
-      "analysis_ms": 15.77,
+      "ingest_ms": 162.24,
+      "analysis_ms": 27.44,
       "abstained": true
     },
     {
@@ -629,8 +648,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 278.85,
-      "analysis_ms": 36.52,
+      "ingest_ms": 356.49,
+      "analysis_ms": 49.61,
       "false_positive": false
     },
     {
@@ -649,8 +668,8 @@
         "orders-db"
       ],
       "top_score": 0.695,
-      "ingest_ms": 265.26,
-      "analysis_ms": 82.36,
+      "ingest_ms": 346.58,
+      "analysis_ms": 101.01,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -672,8 +691,8 @@
         "api-gateway"
       ],
       "top_score": 0.592,
-      "ingest_ms": 277.49,
-      "analysis_ms": 65.66,
+      "ingest_ms": 348.59,
+      "analysis_ms": 95.57,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -695,8 +714,8 @@
         "api-gateway"
       ],
       "top_score": 0.84,
-      "ingest_ms": 271.28,
-      "analysis_ms": 64.02,
+      "ingest_ms": 364.68,
+      "analysis_ms": 87.86,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -718,8 +737,8 @@
         "api-gateway"
       ],
       "top_score": 0.631,
-      "ingest_ms": 267.44,
-      "analysis_ms": 73.58,
+      "ingest_ms": 372.05,
+      "analysis_ms": 98.83,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -740,9 +759,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.578,
-      "ingest_ms": 322.86,
-      "analysis_ms": 75.39,
+      "top_score": 0.548,
+      "ingest_ms": 532.78,
+      "analysis_ms": 89.75,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -760,8 +779,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 267.2,
-      "analysis_ms": 42.51,
+      "ingest_ms": 329.49,
+      "analysis_ms": 59.56,
       "false_positive": false
     },
     {
@@ -782,8 +801,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 168.06,
-      "analysis_ms": 23.55,
+      "ingest_ms": 237.39,
+      "analysis_ms": 32.4,
       "abstained": true
     },
     {
@@ -800,8 +819,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 263.63,
-      "analysis_ms": 43.56,
+      "ingest_ms": 376.48,
+      "analysis_ms": 63.78,
       "false_positive": false
     },
     {
@@ -820,8 +839,8 @@
         "orders-db"
       ],
       "top_score": 0.7,
-      "ingest_ms": 184.07,
-      "analysis_ms": 42.54,
+      "ingest_ms": 232.35,
+      "analysis_ms": 63.31,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -843,8 +862,8 @@
         "api-gateway"
       ],
       "top_score": 0.568,
-      "ingest_ms": 176.43,
-      "analysis_ms": 49.89,
+      "ingest_ms": 250.31,
+      "analysis_ms": 67.58,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -866,8 +885,8 @@
         "api-gateway"
       ],
       "top_score": 0.835,
-      "ingest_ms": 248.08,
-      "analysis_ms": 51.0,
+      "ingest_ms": 240.57,
+      "analysis_ms": 66.06,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -889,8 +908,8 @@
         "api-gateway"
       ],
       "top_score": 0.57,
-      "ingest_ms": 192.98,
-      "analysis_ms": 54.91,
+      "ingest_ms": 343.53,
+      "analysis_ms": 109.64,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -909,11 +928,11 @@
       "top3": [
         "redis-cache",
         "orders-service",
-        "api-gateway"
+        "inventory-db"
       ],
-      "top_score": 0.6,
-      "ingest_ms": 203.01,
-      "analysis_ms": 62.49,
+      "top_score": 0.57,
+      "ingest_ms": 356.39,
+      "analysis_ms": 99.83,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -931,8 +950,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 177.28,
-      "analysis_ms": 24.15,
+      "ingest_ms": 338.9,
+      "analysis_ms": 56.28,
       "false_positive": false
     },
     {
@@ -953,8 +972,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 107.11,
-      "analysis_ms": 15.56,
+      "ingest_ms": 208.5,
+      "analysis_ms": 30.27,
       "abstained": true
     },
     {
@@ -971,8 +990,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 192.8,
-      "analysis_ms": 45.17,
+      "ingest_ms": 409.24,
+      "analysis_ms": 82.28,
       "false_positive": false
     },
     {
@@ -991,8 +1010,8 @@
         "orders-db"
       ],
       "top_score": 0.689,
-      "ingest_ms": 156.89,
-      "analysis_ms": 37.68,
+      "ingest_ms": 364.75,
+      "analysis_ms": 80.24,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1014,8 +1033,8 @@
         "api-gateway"
       ],
       "top_score": 0.622,
-      "ingest_ms": 156.16,
-      "analysis_ms": 55.44,
+      "ingest_ms": 576.14,
+      "analysis_ms": 182.81,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1036,8 +1055,8 @@
         "orders-service"
       ],
       "top_score": 0.837,
-      "ingest_ms": 194.34,
-      "analysis_ms": 39.28,
+      "ingest_ms": 472.14,
+      "analysis_ms": 133.23,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1059,8 +1078,8 @@
         "api-gateway"
       ],
       "top_score": 0.572,
-      "ingest_ms": 209.52,
-      "analysis_ms": 55.29,
+      "ingest_ms": 614.07,
+      "analysis_ms": 150.96,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1078,12 +1097,12 @@
       "evidence_status": "sufficient",
       "top3": [
         "redis-cache",
-        "orders-service",
-        "api-gateway"
+        "api-gateway",
+        "orders-service"
       ],
-      "top_score": 0.578,
-      "ingest_ms": 184.7,
-      "analysis_ms": 57.57,
+      "top_score": 0.548,
+      "ingest_ms": 675.4,
+      "analysis_ms": 149.16,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1101,8 +1120,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 170.79,
-      "analysis_ms": 32.56,
+      "ingest_ms": 514.49,
+      "analysis_ms": 96.1,
       "false_positive": false
     },
     {
@@ -1123,8 +1142,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 90.46,
-      "analysis_ms": 12.73,
+      "ingest_ms": 219.33,
+      "analysis_ms": 36.82,
       "abstained": true
     },
     {
@@ -1141,8 +1160,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 173.78,
-      "analysis_ms": 27.38,
+      "ingest_ms": 506.94,
+      "analysis_ms": 84.76,
       "false_positive": false
     },
     {
@@ -1161,8 +1180,8 @@
         "orders-db"
       ],
       "top_score": 0.694,
-      "ingest_ms": 158.29,
-      "analysis_ms": 38.64,
+      "ingest_ms": 700.88,
+      "analysis_ms": 151.85,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1184,8 +1203,8 @@
         "api-gateway"
       ],
       "top_score": 0.602,
-      "ingest_ms": 138.85,
-      "analysis_ms": 34.89,
+      "ingest_ms": 487.99,
+      "analysis_ms": 85.62,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1207,8 +1226,8 @@
         "web-frontend"
       ],
       "top_score": 0.758,
-      "ingest_ms": 194.99,
-      "analysis_ms": 41.99,
+      "ingest_ms": 262.78,
+      "analysis_ms": 63.32,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1230,8 +1249,8 @@
         "api-gateway"
       ],
       "top_score": 0.474,
-      "ingest_ms": 164.39,
-      "analysis_ms": 40.85,
+      "ingest_ms": 373.16,
+      "analysis_ms": 100.76,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1252,9 +1271,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.609,
-      "ingest_ms": 151.05,
-      "analysis_ms": 44.29,
+      "top_score": 0.579,
+      "ingest_ms": 315.75,
+      "analysis_ms": 77.52,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1272,8 +1291,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 150.92,
-      "analysis_ms": 25.1,
+      "ingest_ms": 400.25,
+      "analysis_ms": 54.52,
       "false_positive": false
     },
     {
@@ -1294,8 +1313,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 82.57,
-      "analysis_ms": 15.55,
+      "ingest_ms": 189.77,
+      "analysis_ms": 33.85,
       "abstained": true
     },
     {
@@ -1312,8 +1331,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 134.72,
-      "analysis_ms": 24.48,
+      "ingest_ms": 404.09,
+      "analysis_ms": 75.1,
       "false_positive": false
     },
     {
@@ -1332,8 +1351,8 @@
         "orders-db"
       ],
       "top_score": 0.694,
-      "ingest_ms": 254.78,
-      "analysis_ms": 68.26,
+      "ingest_ms": 731.27,
+      "analysis_ms": 241.89,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1354,8 +1373,8 @@
         "payments-service"
       ],
       "top_score": 0.623,
-      "ingest_ms": 257.14,
-      "analysis_ms": 84.59,
+      "ingest_ms": 525.28,
+      "analysis_ms": 153.03,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1377,8 +1396,8 @@
         "web-frontend"
       ],
       "top_score": 0.842,
-      "ingest_ms": 319.51,
-      "analysis_ms": 60.05,
+      "ingest_ms": 503.4,
+      "analysis_ms": 120.5,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1400,8 +1419,8 @@
         "api-gateway"
       ],
       "top_score": 0.607,
-      "ingest_ms": 276.5,
-      "analysis_ms": 100.42,
+      "ingest_ms": 669.8,
+      "analysis_ms": 182.06,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1422,9 +1441,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.595,
-      "ingest_ms": 273.57,
-      "analysis_ms": 80.16,
+      "top_score": 0.565,
+      "ingest_ms": 526.13,
+      "analysis_ms": 151.22,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1442,8 +1461,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 275.69,
-      "analysis_ms": 40.9,
+      "ingest_ms": 489.42,
+      "analysis_ms": 85.93,
       "false_positive": false
     },
     {
@@ -1464,8 +1483,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 169.8,
-      "analysis_ms": 20.82,
+      "ingest_ms": 412.28,
+      "analysis_ms": 40.3,
       "abstained": true
     },
     {
@@ -1482,8 +1501,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 354.57,
-      "analysis_ms": 43.74,
+      "ingest_ms": 559.09,
+      "analysis_ms": 92.56,
       "false_positive": false
     },
     {
@@ -1502,8 +1521,8 @@
         "orders-db"
       ],
       "top_score": 0.696,
-      "ingest_ms": 222.97,
-      "analysis_ms": 52.4,
+      "ingest_ms": 440.17,
+      "analysis_ms": 123.77,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1525,8 +1544,8 @@
         "api-gateway"
       ],
       "top_score": 0.573,
-      "ingest_ms": 197.66,
-      "analysis_ms": 48.8,
+      "ingest_ms": 621.81,
+      "analysis_ms": 116.71,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1548,8 +1567,8 @@
         "web-frontend"
       ],
       "top_score": 0.839,
-      "ingest_ms": 211.26,
-      "analysis_ms": 44.26,
+      "ingest_ms": 732.27,
+      "analysis_ms": 104.05,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1571,8 +1590,8 @@
         "api-gateway"
       ],
       "top_score": 0.645,
-      "ingest_ms": 234.71,
-      "analysis_ms": 56.04,
+      "ingest_ms": 494.18,
+      "analysis_ms": 158.78,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1593,9 +1612,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.592,
-      "ingest_ms": 216.76,
-      "analysis_ms": 59.82,
+      "top_score": 0.562,
+      "ingest_ms": 299.1,
+      "analysis_ms": 78.26,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1613,8 +1632,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 377.0,
-      "analysis_ms": 67.65,
+      "ingest_ms": 297.3,
+      "analysis_ms": 40.73,
       "false_positive": false
     },
     {
@@ -1635,8 +1654,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 233.66,
-      "analysis_ms": 33.2,
+      "ingest_ms": 160.15,
+      "analysis_ms": 17.0,
       "abstained": true
     },
     {
@@ -1653,8 +1672,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 225.1,
-      "analysis_ms": 35.72,
+      "ingest_ms": 269.63,
+      "analysis_ms": 44.9,
       "false_positive": false
     },
     {
@@ -1673,8 +1692,8 @@
         "orders-db"
       ],
       "top_score": 0.693,
-      "ingest_ms": 254.27,
-      "analysis_ms": 99.44,
+      "ingest_ms": 300.64,
+      "analysis_ms": 97.74,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1696,8 +1715,8 @@
         "api-gateway"
       ],
       "top_score": 0.63,
-      "ingest_ms": 236.1,
-      "analysis_ms": 66.98,
+      "ingest_ms": 366.3,
+      "analysis_ms": 82.44,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1719,8 +1738,8 @@
         "api-gateway"
       ],
       "top_score": 0.838,
-      "ingest_ms": 286.44,
-      "analysis_ms": 87.64,
+      "ingest_ms": 291.72,
+      "analysis_ms": 71.9,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1742,8 +1761,8 @@
         "api-gateway"
       ],
       "top_score": 0.651,
-      "ingest_ms": 259.49,
-      "analysis_ms": 68.51,
+      "ingest_ms": 312.03,
+      "analysis_ms": 91.69,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1764,9 +1783,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.589,
-      "ingest_ms": 226.13,
-      "analysis_ms": 60.7,
+      "top_score": 0.559,
+      "ingest_ms": 285.17,
+      "analysis_ms": 85.55,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1784,8 +1803,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 240.38,
-      "analysis_ms": 38.66,
+      "ingest_ms": 449.16,
+      "analysis_ms": 48.87,
       "false_positive": false
     },
     {
@@ -1806,8 +1825,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 139.62,
-      "analysis_ms": 18.09,
+      "ingest_ms": 177.62,
+      "analysis_ms": 25.73,
       "abstained": true
     },
     {
@@ -1824,8 +1843,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 228.05,
-      "analysis_ms": 40.29,
+      "ingest_ms": 309.55,
+      "analysis_ms": 58.0,
       "false_positive": false
     },
     {
@@ -1845,8 +1864,8 @@
         "web-frontend"
       ],
       "top_score": 0.679,
-      "ingest_ms": 326.84,
-      "analysis_ms": 62.57,
+      "ingest_ms": 339.27,
+      "analysis_ms": 93.17,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1867,8 +1886,8 @@
         "payments-service"
       ],
       "top_score": 0.612,
-      "ingest_ms": 239.06,
-      "analysis_ms": 55.64,
+      "ingest_ms": 316.28,
+      "analysis_ms": 81.97,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1890,8 +1909,8 @@
         "api-gateway"
       ],
       "top_score": 0.838,
-      "ingest_ms": 251.34,
-      "analysis_ms": 62.37,
+      "ingest_ms": 366.55,
+      "analysis_ms": 82.11,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1913,8 +1932,8 @@
         "api-gateway"
       ],
       "top_score": 0.585,
-      "ingest_ms": 299.29,
-      "analysis_ms": 79.57,
+      "ingest_ms": 386.88,
+      "analysis_ms": 117.78,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1935,9 +1954,9 @@
         "inventory-db",
         "orders-service"
       ],
-      "top_score": 0.602,
-      "ingest_ms": 239.43,
-      "analysis_ms": 68.26,
+      "top_score": 0.565,
+      "ingest_ms": 300.15,
+      "analysis_ms": 106.45,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -1955,8 +1974,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 281.13,
-      "analysis_ms": 60.71,
+      "ingest_ms": 309.79,
+      "analysis_ms": 57.64,
       "false_positive": false
     },
     {
@@ -1977,8 +1996,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 190.6,
-      "analysis_ms": 29.63,
+      "ingest_ms": 283.82,
+      "analysis_ms": 27.15,
       "abstained": true
     },
     {
@@ -1995,8 +2014,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 289.77,
-      "analysis_ms": 48.23,
+      "ingest_ms": 342.29,
+      "analysis_ms": 53.3,
       "false_positive": false
     },
     {
@@ -2016,8 +2035,8 @@
         "orders-service"
       ],
       "top_score": 0.689,
-      "ingest_ms": 174.12,
-      "analysis_ms": 46.27,
+      "ingest_ms": 212.87,
+      "analysis_ms": 66.65,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2038,8 +2057,8 @@
         "payments-service"
       ],
       "top_score": 0.61,
-      "ingest_ms": 182.93,
-      "analysis_ms": 44.99,
+      "ingest_ms": 264.9,
+      "analysis_ms": 68.89,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2061,8 +2080,8 @@
         "orders-service"
       ],
       "top_score": 0.799,
-      "ingest_ms": 162.31,
-      "analysis_ms": 39.9,
+      "ingest_ms": 239.78,
+      "analysis_ms": 77.79,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2084,8 +2103,8 @@
         "api-gateway"
       ],
       "top_score": 0.586,
-      "ingest_ms": 188.13,
-      "analysis_ms": 56.5,
+      "ingest_ms": 428.12,
+      "analysis_ms": 81.4,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2106,9 +2125,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.607,
-      "ingest_ms": 225.27,
-      "analysis_ms": 72.52,
+      "top_score": 0.577,
+      "ingest_ms": 275.32,
+      "analysis_ms": 73.17,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2126,8 +2145,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 158.8,
-      "analysis_ms": 23.3,
+      "ingest_ms": 198.57,
+      "analysis_ms": 34.11,
       "false_positive": false
     },
     {
@@ -2148,8 +2167,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 95.56,
-      "analysis_ms": 11.53,
+      "ingest_ms": 112.51,
+      "analysis_ms": 18.13,
       "abstained": true
     },
     {
@@ -2166,8 +2185,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 238.23,
-      "analysis_ms": 28.31,
+      "ingest_ms": 212.04,
+      "analysis_ms": 32.12,
       "false_positive": false
     },
     {
@@ -2187,8 +2206,8 @@
         "orders-service"
       ],
       "top_score": 0.694,
-      "ingest_ms": 247.48,
-      "analysis_ms": 72.47,
+      "ingest_ms": 286.7,
+      "analysis_ms": 286.87,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2210,8 +2229,8 @@
         "api-gateway"
       ],
       "top_score": 0.601,
-      "ingest_ms": 209.12,
-      "analysis_ms": 51.88,
+      "ingest_ms": 370.88,
+      "analysis_ms": 127.53,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2233,8 +2252,8 @@
         "web-frontend"
       ],
       "top_score": 0.84,
-      "ingest_ms": 211.45,
-      "analysis_ms": 55.39,
+      "ingest_ms": 402.72,
+      "analysis_ms": 114.24,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2256,8 +2275,8 @@
         "api-gateway"
       ],
       "top_score": 0.482,
-      "ingest_ms": 276.09,
-      "analysis_ms": 61.68,
+      "ingest_ms": 604.77,
+      "analysis_ms": 155.48,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2278,9 +2297,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.597,
-      "ingest_ms": 211.66,
-      "analysis_ms": 63.06,
+      "top_score": 0.567,
+      "ingest_ms": 541.69,
+      "analysis_ms": 163.27,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2298,8 +2317,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 230.95,
-      "analysis_ms": 31.88,
+      "ingest_ms": 452.21,
+      "analysis_ms": 70.88,
       "false_positive": false
     },
     {
@@ -2320,8 +2339,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 140.09,
-      "analysis_ms": 19.18,
+      "ingest_ms": 223.69,
+      "analysis_ms": 36.66,
       "abstained": true
     },
     {
@@ -2338,8 +2357,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 239.91,
-      "analysis_ms": 39.45,
+      "ingest_ms": 558.35,
+      "analysis_ms": 74.42,
       "false_positive": false
     },
     {
@@ -2359,8 +2378,8 @@
         "orders-service"
       ],
       "top_score": 0.695,
-      "ingest_ms": 276.65,
-      "analysis_ms": 78.21,
+      "ingest_ms": 487.42,
+      "analysis_ms": 147.31,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2382,8 +2401,8 @@
         "api-gateway"
       ],
       "top_score": 0.592,
-      "ingest_ms": 332.73,
-      "analysis_ms": 70.35,
+      "ingest_ms": 500.94,
+      "analysis_ms": 117.34,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2405,8 +2424,8 @@
         "api-gateway"
       ],
       "top_score": 0.84,
-      "ingest_ms": 283.46,
-      "analysis_ms": 64.96,
+      "ingest_ms": 644.74,
+      "analysis_ms": 130.17,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2428,8 +2447,8 @@
         "api-gateway"
       ],
       "top_score": 0.628,
-      "ingest_ms": 275.27,
-      "analysis_ms": 66.3,
+      "ingest_ms": 526.1,
+      "analysis_ms": 112.92,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2450,9 +2469,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.578,
-      "ingest_ms": 293.42,
-      "analysis_ms": 70.91,
+      "top_score": 0.548,
+      "ingest_ms": 534.49,
+      "analysis_ms": 183.61,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2470,8 +2489,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 251.69,
-      "analysis_ms": 40.43,
+      "ingest_ms": 467.59,
+      "analysis_ms": 78.57,
       "false_positive": false
     },
     {
@@ -2492,8 +2511,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 246.11,
-      "analysis_ms": 24.89,
+      "ingest_ms": 356.22,
+      "analysis_ms": 57.19,
       "abstained": true
     },
     {
@@ -2510,8 +2529,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 283.93,
-      "analysis_ms": 40.37,
+      "ingest_ms": 498.25,
+      "analysis_ms": 92.34,
       "false_positive": false
     },
     {
@@ -2531,8 +2550,8 @@
         "orders-service"
       ],
       "top_score": 0.7,
-      "ingest_ms": 179.66,
-      "analysis_ms": 50.04,
+      "ingest_ms": 413.31,
+      "analysis_ms": 103.67,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2554,8 +2573,8 @@
         "web-frontend"
       ],
       "top_score": 0.568,
-      "ingest_ms": 179.11,
-      "analysis_ms": 76.48,
+      "ingest_ms": 361.18,
+      "analysis_ms": 135.7,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2577,8 +2596,8 @@
         "api-gateway"
       ],
       "top_score": 0.835,
-      "ingest_ms": 218.97,
-      "analysis_ms": 49.43,
+      "ingest_ms": 364.78,
+      "analysis_ms": 105.93,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2600,8 +2619,8 @@
         "api-gateway"
       ],
       "top_score": 0.567,
-      "ingest_ms": 200.48,
-      "analysis_ms": 61.82,
+      "ingest_ms": 365.29,
+      "analysis_ms": 125.23,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2620,11 +2639,11 @@
       "top3": [
         "redis-cache",
         "orders-service",
-        "api-gateway"
+        "inventory-db"
       ],
-      "top_score": 0.6,
-      "ingest_ms": 221.58,
-      "analysis_ms": 116.65,
+      "top_score": 0.57,
+      "ingest_ms": 368.68,
+      "analysis_ms": 152.93,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2642,8 +2661,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 177.81,
-      "analysis_ms": 29.13,
+      "ingest_ms": 377.69,
+      "analysis_ms": 62.73,
       "false_positive": false
     },
     {
@@ -2664,8 +2683,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 144.87,
-      "analysis_ms": 29.84,
+      "ingest_ms": 236.26,
+      "analysis_ms": 46.03,
       "abstained": true
     },
     {
@@ -2682,8 +2701,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 222.59,
-      "analysis_ms": 31.58,
+      "ingest_ms": 384.23,
+      "analysis_ms": 63.36,
       "false_positive": false
     },
     {
@@ -2702,8 +2721,8 @@
         "orders-db"
       ],
       "top_score": 0.689,
-      "ingest_ms": 168.26,
-      "analysis_ms": 52.04,
+      "ingest_ms": 266.4,
+      "analysis_ms": 77.89,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2725,8 +2744,8 @@
         "api-gateway"
       ],
       "top_score": 0.622,
-      "ingest_ms": 161.16,
-      "analysis_ms": 45.68,
+      "ingest_ms": 213.34,
+      "analysis_ms": 271.64,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2748,8 +2767,8 @@
         "api-gateway"
       ],
       "top_score": 0.837,
-      "ingest_ms": 162.04,
-      "analysis_ms": 47.16,
+      "ingest_ms": 225.75,
+      "analysis_ms": 69.64,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2771,8 +2790,8 @@
         "api-gateway"
       ],
       "top_score": 0.569,
-      "ingest_ms": 214.73,
-      "analysis_ms": 78.72,
+      "ingest_ms": 260.6,
+      "analysis_ms": 70.13,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2793,9 +2812,9 @@
         "api-gateway",
         "orders-service"
       ],
-      "top_score": 0.578,
-      "ingest_ms": 229.05,
-      "analysis_ms": 49.77,
+      "top_score": 0.548,
+      "ingest_ms": 272.78,
+      "analysis_ms": 103.81,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2813,8 +2832,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 166.67,
-      "analysis_ms": 23.32,
+      "ingest_ms": 294.92,
+      "analysis_ms": 41.34,
       "false_positive": false
     },
     {
@@ -2835,8 +2854,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 86.54,
-      "analysis_ms": 12.07,
+      "ingest_ms": 111.78,
+      "analysis_ms": 12.83,
       "abstained": true
     },
     {
@@ -2853,8 +2872,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 168.32,
-      "analysis_ms": 26.92,
+      "ingest_ms": 204.32,
+      "analysis_ms": 34.59,
       "false_positive": false
     },
     {
@@ -2874,8 +2893,8 @@
         "orders-service"
       ],
       "top_score": 0.694,
-      "ingest_ms": 163.32,
-      "analysis_ms": 51.91,
+      "ingest_ms": 213.0,
+      "analysis_ms": 62.27,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2897,8 +2916,8 @@
         "api-gateway"
       ],
       "top_score": 0.602,
-      "ingest_ms": 137.8,
-      "analysis_ms": 38.19,
+      "ingest_ms": 182.16,
+      "analysis_ms": 43.28,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2920,8 +2939,8 @@
         "web-frontend"
       ],
       "top_score": 0.758,
-      "ingest_ms": 140.45,
-      "analysis_ms": 39.53,
+      "ingest_ms": 181.44,
+      "analysis_ms": 50.44,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2943,8 +2962,8 @@
         "api-gateway"
       ],
       "top_score": 0.474,
-      "ingest_ms": 157.94,
-      "analysis_ms": 47.22,
+      "ingest_ms": 204.96,
+      "analysis_ms": 70.72,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2965,9 +2984,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.609,
-      "ingest_ms": 180.06,
-      "analysis_ms": 83.09,
+      "top_score": 0.579,
+      "ingest_ms": 242.42,
+      "analysis_ms": 71.16,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -2985,8 +3004,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 163.83,
-      "analysis_ms": 20.88,
+      "ingest_ms": 187.73,
+      "analysis_ms": 29.88,
       "false_positive": false
     },
     {
@@ -3007,8 +3026,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 85.4,
-      "analysis_ms": 12.49,
+      "ingest_ms": 109.57,
+      "analysis_ms": 15.32,
       "abstained": true
     },
     {
@@ -3025,8 +3044,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 155.88,
-      "analysis_ms": 24.96,
+      "ingest_ms": 175.33,
+      "analysis_ms": 29.37,
       "false_positive": false
     },
     {
@@ -3045,8 +3064,8 @@
         "orders-db"
       ],
       "top_score": 0.694,
-      "ingest_ms": 269.07,
-      "analysis_ms": 91.9,
+      "ingest_ms": 339.56,
+      "analysis_ms": 120.33,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3068,8 +3087,8 @@
         "api-gateway"
       ],
       "top_score": 0.623,
-      "ingest_ms": 264.35,
-      "analysis_ms": 64.6,
+      "ingest_ms": 326.61,
+      "analysis_ms": 114.33,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3091,8 +3110,8 @@
         "web-frontend"
       ],
       "top_score": 0.842,
-      "ingest_ms": 248.01,
-      "analysis_ms": 70.56,
+      "ingest_ms": 328.79,
+      "analysis_ms": 102.44,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3114,8 +3133,8 @@
         "api-gateway"
       ],
       "top_score": 0.601,
-      "ingest_ms": 345.89,
-      "analysis_ms": 74.91,
+      "ingest_ms": 355.34,
+      "analysis_ms": 106.86,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3136,9 +3155,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.595,
-      "ingest_ms": 272.02,
-      "analysis_ms": 90.72,
+      "top_score": 0.565,
+      "ingest_ms": 352.71,
+      "analysis_ms": 134.07,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3156,8 +3175,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 249.61,
-      "analysis_ms": 37.79,
+      "ingest_ms": 380.55,
+      "analysis_ms": 90.52,
       "false_positive": false
     },
     {
@@ -3178,8 +3197,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 185.89,
-      "analysis_ms": 25.91,
+      "ingest_ms": 203.25,
+      "analysis_ms": 36.82,
       "abstained": true
     },
     {
@@ -3196,8 +3215,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 297.46,
-      "analysis_ms": 49.32,
+      "ingest_ms": 382.39,
+      "analysis_ms": 55.92,
       "false_positive": false
     },
     {
@@ -3216,8 +3235,8 @@
         "orders-db"
       ],
       "top_score": 0.696,
-      "ingest_ms": 246.21,
-      "analysis_ms": 79.21,
+      "ingest_ms": 295.06,
+      "analysis_ms": 278.05,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3239,8 +3258,8 @@
         "api-gateway"
       ],
       "top_score": 0.573,
-      "ingest_ms": 202.22,
-      "analysis_ms": 64.73,
+      "ingest_ms": 343.94,
+      "analysis_ms": 160.54,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3259,11 +3278,11 @@
       "top3": [
         "inventory-service",
         "api-gateway",
-        "web-frontend"
+        "orders-service"
       ],
       "top_score": 0.839,
-      "ingest_ms": 201.56,
-      "analysis_ms": 52.2,
+      "ingest_ms": 283.47,
+      "analysis_ms": 65.55,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3285,8 +3304,8 @@
         "api-gateway"
       ],
       "top_score": 0.634,
-      "ingest_ms": 230.74,
-      "analysis_ms": 68.5,
+      "ingest_ms": 296.43,
+      "analysis_ms": 72.89,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3307,9 +3326,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.592,
-      "ingest_ms": 244.37,
-      "analysis_ms": 61.24,
+      "top_score": 0.562,
+      "ingest_ms": 306.06,
+      "analysis_ms": 85.14,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3327,8 +3346,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 215.09,
-      "analysis_ms": 35.12,
+      "ingest_ms": 272.13,
+      "analysis_ms": 43.99,
       "false_positive": false
     },
     {
@@ -3349,8 +3368,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 132.04,
-      "analysis_ms": 15.07,
+      "ingest_ms": 160.65,
+      "analysis_ms": 42.71,
       "abstained": true
     },
     {
@@ -3367,8 +3386,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 247.97,
-      "analysis_ms": 33.27,
+      "ingest_ms": 283.62,
+      "analysis_ms": 48.06,
       "false_positive": false
     },
     {
@@ -3388,8 +3407,8 @@
         "orders-service"
       ],
       "top_score": 0.693,
-      "ingest_ms": 240.68,
-      "analysis_ms": 54.94,
+      "ingest_ms": 295.4,
+      "analysis_ms": 68.33,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3411,8 +3430,8 @@
         "api-gateway"
       ],
       "top_score": 0.63,
-      "ingest_ms": 224.73,
-      "analysis_ms": 59.35,
+      "ingest_ms": 288.12,
+      "analysis_ms": 90.07,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3434,8 +3453,8 @@
         "api-gateway"
       ],
       "top_score": 0.838,
-      "ingest_ms": 332.57,
-      "analysis_ms": 54.89,
+      "ingest_ms": 423.57,
+      "analysis_ms": 114.07,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3457,8 +3476,8 @@
         "api-gateway"
       ],
       "top_score": 0.651,
-      "ingest_ms": 276.46,
-      "analysis_ms": 64.77,
+      "ingest_ms": 549.36,
+      "analysis_ms": 133.98,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3479,9 +3498,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.589,
-      "ingest_ms": 319.08,
-      "analysis_ms": 75.57,
+      "top_score": 0.559,
+      "ingest_ms": 433.19,
+      "analysis_ms": 146.69,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3499,8 +3518,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 238.52,
-      "analysis_ms": 37.69,
+      "ingest_ms": 429.46,
+      "analysis_ms": 77.67,
       "false_positive": false
     },
     {
@@ -3521,8 +3540,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 142.1,
-      "analysis_ms": 20.33,
+      "ingest_ms": 313.2,
+      "analysis_ms": 38.09,
       "abstained": true
     },
     {
@@ -3539,8 +3558,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 235.36,
-      "analysis_ms": 50.57,
+      "ingest_ms": 425.89,
+      "analysis_ms": 101.71,
       "false_positive": false
     },
     {
@@ -3561,8 +3580,8 @@
         "orders-service"
       ],
       "top_score": 0.679,
-      "ingest_ms": 264.43,
-      "analysis_ms": 66.4,
+      "ingest_ms": 486.09,
+      "analysis_ms": 129.67,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3583,8 +3602,8 @@
         "payments-service"
       ],
       "top_score": 0.612,
-      "ingest_ms": 246.88,
-      "analysis_ms": 74.72,
+      "ingest_ms": 576.32,
+      "analysis_ms": 187.38,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3606,8 +3625,8 @@
         "api-gateway"
       ],
       "top_score": 0.838,
-      "ingest_ms": 299.53,
-      "analysis_ms": 69.99,
+      "ingest_ms": 597.25,
+      "analysis_ms": 166.18,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3629,8 +3648,8 @@
         "api-gateway"
       ],
       "top_score": 0.583,
-      "ingest_ms": 291.1,
-      "analysis_ms": 96.08,
+      "ingest_ms": 1064.07,
+      "analysis_ms": 303.1,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3651,9 +3670,9 @@
         "inventory-db",
         "orders-service"
       ],
-      "top_score": 0.602,
-      "ingest_ms": 250.64,
-      "analysis_ms": 71.65,
+      "top_score": 0.565,
+      "ingest_ms": 677.86,
+      "analysis_ms": 132.65,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3671,8 +3690,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 246.91,
-      "analysis_ms": 58.65,
+      "ingest_ms": 503.76,
+      "analysis_ms": 123.05,
       "false_positive": false
     },
     {
@@ -3693,8 +3712,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 169.92,
-      "analysis_ms": 23.36,
+      "ingest_ms": 392.63,
+      "analysis_ms": 37.2,
       "abstained": true
     },
     {
@@ -3711,8 +3730,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 346.02,
-      "analysis_ms": 43.93,
+      "ingest_ms": 566.54,
+      "analysis_ms": 96.46,
       "false_positive": false
     },
     {
@@ -3733,8 +3752,8 @@
         "web-frontend"
       ],
       "top_score": 0.461,
-      "ingest_ms": 161.21,
-      "analysis_ms": 40.89,
+      "ingest_ms": 328.73,
+      "analysis_ms": 97.48,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3756,8 +3775,8 @@
         "payments-service"
       ],
       "top_score": 0.581,
-      "ingest_ms": 158.41,
-      "analysis_ms": 37.46,
+      "ingest_ms": 285.47,
+      "analysis_ms": 96.92,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3779,8 +3798,8 @@
         "orders-service"
       ],
       "top_score": 0.601,
-      "ingest_ms": 160.96,
-      "analysis_ms": 41.83,
+      "ingest_ms": 387.48,
+      "analysis_ms": 95.21,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3802,8 +3821,8 @@
         "inventory-service"
       ],
       "top_score": 0.484,
-      "ingest_ms": 194.97,
-      "analysis_ms": 54.54,
+      "ingest_ms": 382.66,
+      "analysis_ms": 117.74,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3824,9 +3843,9 @@
         "api-gateway",
         "orders-service"
       ],
-      "top_score": 0.376,
-      "ingest_ms": 178.2,
-      "analysis_ms": 56.12,
+      "top_score": 0.346,
+      "ingest_ms": 360.25,
+      "analysis_ms": 124.51,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3844,8 +3863,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 165.74,
-      "analysis_ms": 24.03,
+      "ingest_ms": 339.62,
+      "analysis_ms": 78.68,
       "false_positive": false
     },
     {
@@ -3866,8 +3885,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 91.21,
-      "analysis_ms": 12.36,
+      "ingest_ms": 136.17,
+      "analysis_ms": 16.39,
       "abstained": true
     },
     {
@@ -3884,8 +3903,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 221.59,
-      "analysis_ms": 37.63,
+      "ingest_ms": 212.03,
+      "analysis_ms": 39.08,
       "false_positive": false
     },
     {
@@ -3906,8 +3925,8 @@
         "web-frontend"
       ],
       "top_score": 0.655,
-      "ingest_ms": 238.01,
-      "analysis_ms": 67.06,
+      "ingest_ms": 281.33,
+      "analysis_ms": 94.96,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3929,8 +3948,8 @@
         "api-gateway"
       ],
       "top_score": 0.588,
-      "ingest_ms": 220.27,
-      "analysis_ms": 56.29,
+      "ingest_ms": 281.19,
+      "analysis_ms": 79.35,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3952,8 +3971,8 @@
         "api-gateway"
       ],
       "top_score": 0.807,
-      "ingest_ms": 215.48,
-      "analysis_ms": 53.53,
+      "ingest_ms": 272.9,
+      "analysis_ms": 77.59,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -3975,8 +3994,8 @@
         "api-gateway"
       ],
       "top_score": 0.458,
-      "ingest_ms": 234.13,
-      "analysis_ms": 56.91,
+      "ingest_ms": 428.68,
+      "analysis_ms": 79.21,
       "top1_correct": false,
       "top3_hit": true
     },
@@ -3994,12 +4013,12 @@
       "evidence_status": "sufficient",
       "top3": [
         "redis-cache",
-        "orders-service",
-        "inventory-db"
+        "inventory-db",
+        "orders-service"
       ],
-      "top_score": 0.588,
-      "ingest_ms": 230.46,
-      "analysis_ms": 62.03,
+      "top_score": 0.558,
+      "ingest_ms": 287.65,
+      "analysis_ms": 79.32,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4017,8 +4036,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 242.67,
-      "analysis_ms": 75.57,
+      "ingest_ms": 282.02,
+      "analysis_ms": 65.05,
       "false_positive": false
     },
     {
@@ -4039,8 +4058,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 124.71,
-      "analysis_ms": 21.04,
+      "ingest_ms": 151.27,
+      "analysis_ms": 32.69,
       "abstained": true
     },
     {
@@ -4057,8 +4076,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 214.16,
-      "analysis_ms": 38.76,
+      "ingest_ms": 280.56,
+      "analysis_ms": 56.0,
       "false_positive": true
     },
     {
@@ -4078,8 +4097,8 @@
         "web-frontend"
       ],
       "top_score": 0.449,
-      "ingest_ms": 302.29,
-      "analysis_ms": 71.76,
+      "ingest_ms": 413.32,
+      "analysis_ms": 87.85,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4101,8 +4120,8 @@
         "api-gateway"
       ],
       "top_score": 0.341,
-      "ingest_ms": 278.94,
-      "analysis_ms": 65.37,
+      "ingest_ms": 351.2,
+      "analysis_ms": 94.48,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4124,8 +4143,8 @@
         "orders-service"
       ],
       "top_score": 0.671,
-      "ingest_ms": 269.96,
-      "analysis_ms": 79.63,
+      "ingest_ms": 349.82,
+      "analysis_ms": 126.59,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4147,8 +4166,8 @@
         "web-frontend"
       ],
       "top_score": 0.496,
-      "ingest_ms": 342.07,
-      "analysis_ms": 74.28,
+      "ingest_ms": 397.56,
+      "analysis_ms": 132.27,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4165,14 +4184,14 @@
       "detected": true,
       "evidence_status": "ambiguous",
       "top3": [
-        "redis-cache",
         "orders-service",
-        "inventory-service"
+        "inventory-service",
+        "redis-cache"
       ],
-      "top_score": 0.373,
-      "ingest_ms": 402.96,
-      "analysis_ms": 88.57,
-      "top1_correct": true,
+      "top_score": 0.357,
+      "ingest_ms": 440.8,
+      "analysis_ms": 140.11,
+      "top1_correct": false,
       "top3_hit": true
     },
     {
@@ -4189,8 +4208,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 276.42,
-      "analysis_ms": 42.36,
+      "ingest_ms": 346.7,
+      "analysis_ms": 62.49,
       "false_positive": false
     },
     {
@@ -4211,8 +4230,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 155.23,
-      "analysis_ms": 21.29,
+      "ingest_ms": 200.14,
+      "analysis_ms": 32.16,
       "abstained": true
     },
     {
@@ -4229,8 +4248,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 269.18,
-      "analysis_ms": 60.27,
+      "ingest_ms": 373.56,
+      "analysis_ms": 80.31,
       "false_positive": false
     },
     {
@@ -4251,8 +4270,8 @@
         "api-gateway"
       ],
       "top_score": 0.457,
-      "ingest_ms": 270.62,
-      "analysis_ms": 51.28,
+      "ingest_ms": 371.07,
+      "analysis_ms": 74.79,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4274,8 +4293,8 @@
         "api-gateway"
       ],
       "top_score": 0.331,
-      "ingest_ms": 184.75,
-      "analysis_ms": 57.05,
+      "ingest_ms": 251.18,
+      "analysis_ms": 67.59,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4297,8 +4316,8 @@
         "web-frontend"
       ],
       "top_score": 0.587,
-      "ingest_ms": 200.94,
-      "analysis_ms": 50.78,
+      "ingest_ms": 251.85,
+      "analysis_ms": 82.84,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4320,8 +4339,8 @@
         "inventory-service"
       ],
       "top_score": 0.55,
-      "ingest_ms": 222.35,
-      "analysis_ms": 68.41,
+      "ingest_ms": 293.05,
+      "analysis_ms": 93.66,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4338,14 +4357,14 @@
       "detected": true,
       "evidence_status": "ambiguous",
       "top3": [
-        "redis-cache",
         "orders-service",
+        "redis-cache",
         "web-frontend"
       ],
-      "top_score": 0.377,
-      "ingest_ms": 202.8,
-      "analysis_ms": 60.17,
-      "top1_correct": true,
+      "top_score": 0.351,
+      "ingest_ms": 281.43,
+      "analysis_ms": 86.98,
+      "top1_correct": false,
       "top3_hit": true
     },
     {
@@ -4362,8 +4381,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 183.13,
-      "analysis_ms": 29.63,
+      "ingest_ms": 327.04,
+      "analysis_ms": 36.65,
       "false_positive": false
     },
     {
@@ -4384,8 +4403,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 135.58,
-      "analysis_ms": 18.39,
+      "ingest_ms": 156.08,
+      "analysis_ms": 25.06,
       "abstained": true
     },
     {
@@ -4402,8 +4421,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 239.87,
-      "analysis_ms": 26.56,
+      "ingest_ms": 240.96,
+      "analysis_ms": 38.87,
       "false_positive": false
     },
     {
@@ -4424,8 +4443,8 @@
         "orders-service"
       ],
       "top_score": 0.667,
-      "ingest_ms": 171.92,
-      "analysis_ms": 40.31,
+      "ingest_ms": 205.69,
+      "analysis_ms": 55.36,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4447,8 +4466,8 @@
         "payments-service"
       ],
       "top_score": 0.53,
-      "ingest_ms": 168.35,
-      "analysis_ms": 49.12,
+      "ingest_ms": 232.79,
+      "analysis_ms": 54.5,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4470,8 +4489,8 @@
         "api-gateway"
       ],
       "top_score": 0.819,
-      "ingest_ms": 159.67,
-      "analysis_ms": 48.06,
+      "ingest_ms": 213.32,
+      "analysis_ms": 59.71,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4493,8 +4512,8 @@
         "inventory-service"
       ],
       "top_score": 0.491,
-      "ingest_ms": 166.28,
-      "analysis_ms": 55.85,
+      "ingest_ms": 272.44,
+      "analysis_ms": 88.94,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4515,9 +4534,9 @@
         "orders-service",
         "inventory-db"
       ],
-      "top_score": 0.557,
-      "ingest_ms": 172.0,
-      "analysis_ms": 59.34,
+      "top_score": 0.527,
+      "ingest_ms": 223.34,
+      "analysis_ms": 76.49,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4535,8 +4554,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 173.26,
-      "analysis_ms": 27.35,
+      "ingest_ms": 218.82,
+      "analysis_ms": 33.82,
       "false_positive": false
     },
     {
@@ -4557,8 +4576,8 @@
         "payments-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 114.33,
-      "analysis_ms": 14.24,
+      "ingest_ms": 125.33,
+      "analysis_ms": 22.72,
       "abstained": true
     },
     {
@@ -4575,8 +4594,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 240.29,
-      "analysis_ms": 32.14,
+      "ingest_ms": 214.21,
+      "analysis_ms": 33.69,
       "false_positive": false
     },
     {
@@ -4597,8 +4616,8 @@
         "api-gateway"
       ],
       "top_score": 0.525,
-      "ingest_ms": 152.41,
-      "analysis_ms": 42.91,
+      "ingest_ms": 273.35,
+      "analysis_ms": 74.69,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4613,15 +4632,15 @@
       "incidents": 1,
       "spurious_incidents": 0,
       "detected": true,
-      "evidence_status": "sufficient",
+      "evidence_status": "ambiguous",
       "top3": [
         "payment-provider",
         "web-frontend",
-        "api-gateway"
+        "orders-service"
       ],
-      "top_score": 0.352,
-      "ingest_ms": 140.1,
-      "analysis_ms": 44.39,
+      "top_score": 0.314,
+      "ingest_ms": 269.94,
+      "analysis_ms": 128.64,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4643,8 +4662,8 @@
         "orders-service"
       ],
       "top_score": 0.647,
-      "ingest_ms": 133.92,
-      "analysis_ms": 33.93,
+      "ingest_ms": 262.08,
+      "analysis_ms": 74.37,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4666,8 +4685,8 @@
         "web-frontend"
       ],
       "top_score": 0.468,
-      "ingest_ms": 169.2,
-      "analysis_ms": 51.07,
+      "ingest_ms": 343.24,
+      "analysis_ms": 88.37,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4686,11 +4705,11 @@
       "top3": [
         "redis-cache",
         "web-frontend",
-        "api-gateway"
+        "inventory-db"
       ],
-      "top_score": 0.486,
-      "ingest_ms": 141.28,
-      "analysis_ms": 38.41,
+      "top_score": 0.448,
+      "ingest_ms": 357.42,
+      "analysis_ms": 289.16,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4708,8 +4727,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 126.06,
-      "analysis_ms": 19.07,
+      "ingest_ms": 310.57,
+      "analysis_ms": 57.82,
       "false_positive": false
     },
     {
@@ -4730,8 +4749,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 85.37,
-      "analysis_ms": 12.55,
+      "ingest_ms": 261.07,
+      "analysis_ms": 29.63,
       "abstained": true
     },
     {
@@ -4748,8 +4767,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 128.68,
-      "analysis_ms": 17.26,
+      "ingest_ms": 294.21,
+      "analysis_ms": 41.43,
       "false_positive": false
     },
     {
@@ -4770,8 +4789,8 @@
         "api-gateway"
       ],
       "top_score": 0.464,
-      "ingest_ms": 359.28,
-      "analysis_ms": 69.4,
+      "ingest_ms": 551.9,
+      "analysis_ms": 143.22,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4793,8 +4812,8 @@
         "api-gateway"
       ],
       "top_score": 0.343,
-      "ingest_ms": 311.36,
-      "analysis_ms": 73.62,
+      "ingest_ms": 654.66,
+      "analysis_ms": 150.35,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4815,9 +4834,9 @@
         "web-frontend",
         "orders-service"
       ],
-      "top_score": 0.608,
-      "ingest_ms": 288.23,
-      "analysis_ms": 67.35,
+      "top_score": 0.571,
+      "ingest_ms": 504.1,
+      "analysis_ms": 124.41,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4838,9 +4857,9 @@
         "web-frontend",
         "inventory-service"
       ],
-      "top_score": 0.406,
-      "ingest_ms": 307.4,
-      "analysis_ms": 90.26,
+      "top_score": 0.381,
+      "ingest_ms": 576.55,
+      "analysis_ms": 171.44,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4861,9 +4880,9 @@
         "orders-service",
         "web-frontend"
       ],
-      "top_score": 0.378,
-      "ingest_ms": 321.66,
-      "analysis_ms": 149.68,
+      "top_score": 0.328,
+      "ingest_ms": 613.96,
+      "analysis_ms": 186.61,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4881,8 +4900,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 299.84,
-      "analysis_ms": 60.94,
+      "ingest_ms": 547.12,
+      "analysis_ms": 117.54,
       "false_positive": true
     },
     {
@@ -4903,8 +4922,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 141.38,
-      "analysis_ms": 21.97,
+      "ingest_ms": 259.1,
+      "analysis_ms": 55.37,
       "abstained": true
     },
     {
@@ -4921,8 +4940,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 302.13,
-      "analysis_ms": 63.87,
+      "ingest_ms": 608.48,
+      "analysis_ms": 120.72,
       "false_positive": true
     },
     {
@@ -4943,8 +4962,8 @@
         "orders-service"
       ],
       "top_score": 0.459,
-      "ingest_ms": 199.14,
-      "analysis_ms": 46.56,
+      "ingest_ms": 383.79,
+      "analysis_ms": 105.99,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4966,8 +4985,8 @@
         "api-gateway"
       ],
       "top_score": 0.338,
-      "ingest_ms": 203.47,
-      "analysis_ms": 63.07,
+      "ingest_ms": 390.52,
+      "analysis_ms": 135.96,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -4989,8 +5008,8 @@
         "api-gateway"
       ],
       "top_score": 0.616,
-      "ingest_ms": 225.01,
-      "analysis_ms": 68.28,
+      "ingest_ms": 410.41,
+      "analysis_ms": 103.08,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5012,8 +5031,8 @@
         "inventory-service"
       ],
       "top_score": 0.451,
-      "ingest_ms": 222.38,
-      "analysis_ms": 60.73,
+      "ingest_ms": 447.42,
+      "analysis_ms": 128.16,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5034,9 +5053,9 @@
         "orders-service",
         "web-frontend"
       ],
-      "top_score": 0.392,
-      "ingest_ms": 268.59,
-      "analysis_ms": 104.64,
+      "top_score": 0.362,
+      "ingest_ms": 390.34,
+      "analysis_ms": 121.2,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5054,8 +5073,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 199.16,
-      "analysis_ms": 48.73,
+      "ingest_ms": 444.81,
+      "analysis_ms": 124.35,
       "false_positive": true
     },
     {
@@ -5076,8 +5095,8 @@
         "orders-service"
       ],
       "top_score": 0.275,
-      "ingest_ms": 128.0,
-      "analysis_ms": 16.34,
+      "ingest_ms": 167.6,
+      "analysis_ms": 21.52,
       "abstained": true
     },
     {
@@ -5094,8 +5113,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 208.89,
-      "analysis_ms": 50.87,
+      "ingest_ms": 248.81,
+      "analysis_ms": 64.47,
       "false_positive": true
     },
     {
@@ -5116,8 +5135,8 @@
         "api-gateway"
       ],
       "top_score": 0.519,
-      "ingest_ms": 251.56,
-      "analysis_ms": 90.41,
+      "ingest_ms": 322.49,
+      "analysis_ms": 86.29,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5139,8 +5158,8 @@
         "payments-service"
       ],
       "top_score": 0.52,
-      "ingest_ms": 238.66,
-      "analysis_ms": 68.9,
+      "ingest_ms": 294.97,
+      "analysis_ms": 88.12,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5162,8 +5181,8 @@
         "web-frontend"
       ],
       "top_score": 0.679,
-      "ingest_ms": 267.48,
-      "analysis_ms": 71.56,
+      "ingest_ms": 420.42,
+      "analysis_ms": 95.95,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5185,8 +5204,8 @@
         "inventory-service"
       ],
       "top_score": 0.456,
-      "ingest_ms": 261.6,
-      "analysis_ms": 66.43,
+      "ingest_ms": 322.15,
+      "analysis_ms": 96.59,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5207,9 +5226,9 @@
         "orders-service",
         "inventory-service"
       ],
-      "top_score": 0.369,
-      "ingest_ms": 234.98,
-      "analysis_ms": 79.22,
+      "top_score": 0.339,
+      "ingest_ms": 295.92,
+      "analysis_ms": 109.29,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5227,8 +5246,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 224.82,
-      "analysis_ms": 33.97,
+      "ingest_ms": 287.08,
+      "analysis_ms": 49.41,
       "false_positive": false
     },
     {
@@ -5249,8 +5268,8 @@
         "api-gateway"
       ],
       "top_score": 0.275,
-      "ingest_ms": 176.61,
-      "analysis_ms": 28.69,
+      "ingest_ms": 382.55,
+      "analysis_ms": 45.74,
       "abstained": true
     },
     {
@@ -5267,8 +5286,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 232.69,
-      "analysis_ms": 50.75,
+      "ingest_ms": 310.03,
+      "analysis_ms": 66.01,
       "false_positive": false
     },
     {
@@ -5289,8 +5308,8 @@
         "api-gateway"
       ],
       "top_score": 0.657,
-      "ingest_ms": 270.79,
-      "analysis_ms": 76.54,
+      "ingest_ms": 340.92,
+      "analysis_ms": 92.43,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5312,8 +5331,8 @@
         "api-gateway"
       ],
       "top_score": 0.471,
-      "ingest_ms": 317.33,
-      "analysis_ms": 86.29,
+      "ingest_ms": 344.6,
+      "analysis_ms": 121.37,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5335,8 +5354,8 @@
         "orders-service"
       ],
       "top_score": 0.73,
-      "ingest_ms": 259.94,
-      "analysis_ms": 63.33,
+      "ingest_ms": 335.59,
+      "analysis_ms": 132.94,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5354,12 +5373,12 @@
       "evidence_status": "sufficient",
       "top3": [
         "orders-service",
-        "api-gateway",
-        "inventory-service"
+        "inventory-service",
+        "api-gateway"
       ],
       "top_score": 0.478,
-      "ingest_ms": 352.19,
-      "analysis_ms": 101.01,
+      "ingest_ms": 360.66,
+      "analysis_ms": 143.53,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5380,9 +5399,9 @@
         "orders-service",
         "api-gateway"
       ],
-      "top_score": 0.584,
-      "ingest_ms": 286.6,
-      "analysis_ms": 73.62,
+      "top_score": 0.554,
+      "ingest_ms": 360.48,
+      "analysis_ms": 111.38,
       "top1_correct": true,
       "top3_hit": true
     },
@@ -5400,8 +5419,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 278.81,
-      "analysis_ms": 59.05,
+      "ingest_ms": 347.43,
+      "analysis_ms": 86.96,
       "false_positive": false
     },
     {
@@ -5422,8 +5441,8 @@
         "web-frontend"
       ],
       "top_score": 0.275,
-      "ingest_ms": 156.32,
-      "analysis_ms": 27.3,
+      "ingest_ms": 200.61,
+      "analysis_ms": 49.98,
       "abstained": true
     },
     {
@@ -5440,8 +5459,8 @@
       "evidence_status": null,
       "top3": [],
       "top_score": null,
-      "ingest_ms": 285.23,
-      "analysis_ms": 43.63,
+      "ingest_ms": 375.74,
+      "analysis_ms": 65.54,
       "false_positive": false
     }
   ]

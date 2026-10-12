@@ -97,23 +97,29 @@ class ServiceGraph:
         return next((e for e in self.edges if e.source == source and e.target == target), None)
 
 
-def _status(node: ServiceNode, incoming: Sequence[ServiceEdge]) -> NodeStatus:
-    if node.kind == "inferred":
-        calls = sum(edge.call_count for edge in incoming)
-        failures = sum(edge.error_count for edge in incoming)
-        if calls == 0:
-            return "unknown"
-        rate = failures / calls
-    else:
-        if node.event_count == 0:
-            return "unknown"
-        rate = node.error_count / node.event_count
-        failures = node.error_count
+def _classify(rate: float, failures: int) -> NodeStatus:
     if rate >= 0.2 and failures >= 5:
         return "failing"
     if (rate >= 0.05 and failures >= 3) or (failures >= 1 and rate >= 0.2):
         return "degraded"
     return "healthy"
+
+
+_SEVERITY_ORDER: dict[NodeStatus, int] = {"unknown": 0, "healthy": 1, "degraded": 2, "failing": 3}
+
+
+def _status(node: ServiceNode, incoming: Sequence[ServiceEdge]) -> NodeStatus:
+    """Worse of the node's own error rate and the failure rate of calls made to it."""
+    statuses: list[NodeStatus] = []
+    calls = sum(edge.call_count for edge in incoming)
+    failures = sum(edge.error_count for edge in incoming)
+    if calls:
+        statuses.append(_classify(failures / calls, failures))
+    if node.kind == "observed" and node.event_count:
+        statuses.append(_classify(node.error_count / node.event_count, node.error_count))
+    if not statuses:
+        return "unknown"
+    return max(statuses, key=lambda status: _SEVERITY_ORDER[status])
 
 
 def _tarjan(nodes: Iterable[str], adjacency: dict[str, list[str]]) -> list[list[str]]:

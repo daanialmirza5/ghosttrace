@@ -35,7 +35,7 @@ backend\.venv\Scripts\python.exe benchmarks\run_benchmark.py --seeds 2001-2002 -
   * `degraded`: 80% of spans keep their parent link.
   * `stress`: 60% of spans keep their parent link, and the background error rate is 2%. I added `stress` after seeing the first results and did not change any heuristics afterwards.
 * **Size:** 8 scenarios × 10 seeds × 3 configurations = 240 runs and 577,081 events, with a median of 2,376 events per run.
-* **Machine:** Windows 11, Intel Core (4 logical CPUs), Python 3.12.14. Wall clock was 109 s.
+* **Machine:** Windows 11, Intel Core (4 logical CPUs), Python 3.12.14, on a laptop with other applications running. Wall clock was 180 s. On the same machine an earlier, less loaded run measured about 40% lower latencies, so treat the latency figures as order-of-magnitude only.
 
 ## Results (2026-10-10, from `results/latest.json`)
 
@@ -43,11 +43,12 @@ backend\.venv\Scripts\python.exe benchmarks\run_benchmark.py --seeds 2001-2002 -
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | standard | 100% (50/50) | 100% | 100% | 100% (10/10) | 0% (0/20) | 0 |
 | degraded | 100% (50/50) | 100% | 100% | 100% (10/10) | 0% (0/20) | 0 |
-| stress | 100% (50/50) | 98% (49/50) | 100% | 100% (10/10) | **25% (5/20)** | 0 |
+| stress | 100% (50/50) | 94% (47/50) | 100% | 100% (10/10) | **25% (5/20)** | 0 |
 
 Failures under `stress`:
 
-* **Retry storm, seed 2002:** the incident was classed as *ambiguous*. `inventory-service` and `orders-service` scored nearly the same, so it is counted as a top-1 miss even though `inventory-service` was ranked first.
+* **Retry storm, seed 2002:** the incident was classed as *ambiguous*. `inventory-service` and `orders-service` scored nearly the same, so this counts as a top-1 miss.
+* **Cache failure, seeds 2003 and 2004:** both were *ambiguous*, with `orders-service` slightly ahead of `redis-cache`. The ground truth was still in the top 3.
 * **Controls:** healthy seeds 2007 and 2008, and unrelated-noise seeds 2002, 2007 and 2008, each produced an incident. At a 2% per-span error rate, errors that propagate up from four services give the entry service bursts the Poisson test treats as significant.
 
 | Ingestion | Value |
@@ -59,10 +60,12 @@ Failures under `stress`:
 
 | Performance | Value |
 | --- | --- |
-| Ingestion p50 / p95 | 222 ms / 322 ms per run |
-| Analysis p50 / p95 / max | 51 ms / 88 ms / 150 ms per run |
-| End-to-end throughput (ingest + analyse) | about 8,900 events/s |
+| Ingestion p50 / p95 | 342 ms / 614 ms per run |
+| Analysis p50 / p95 / max | 85 ms / 171 ms / 303 ms per run |
+| End-to-end throughput (ingest + analyse) | about 5,400 events/s |
 | tracemalloc peak (largest run, 3,362 events) | 9.4 MB |
+
+**Change history.** The first benchmark run scored 98% top-1 under `stress`. Later, while reviewing the UI, I changed one graph rule: a service's health is now the *worse* of its own error rate and the failure rate of calls made to it (previously only its own events counted). The dependency-position signal depends on node health, so this changed rankings and `stress` top-1 fell to 94%. I did not tune anything to recover the lost points.
 
 ## How to read these numbers (limitations and leakage risks)
 
