@@ -290,7 +290,7 @@ def main() -> int:
         "wall_clock_seconds": round(time.perf_counter() - started, 1),
         "runs": runs,
     }
-    output = Path(args.output)
+    output = Path(args.output).resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
 
