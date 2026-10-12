@@ -1,0 +1,27 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Free web services sleep after ~15 minutes idle and have an ephemeral filesystem, so the
+# SQLite database resets on restart/redeploy. That is acceptable for a demo; use a paid
+# disk or GHOSTTRACE_DATABASE_URL pointing at PostgreSQL for persistence.
+services:
+  - type: web
+    name: ghosttrace
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/v1/ready
+    autoDeploy: false
+    envVars:
+      - key: GHOSTTRACE_ENVIRONMENT
+        value: production
+      - key: GHOSTTRACE_DATABASE_URL
+        value: sqlite:////tmp/ghosttrace.db
+      - key: GHOSTTRACE_RETENTION_HOURS
+        value: "12"
+      - key: GHOSTTRACE_RATE_LIMIT_PER_MINUTE
+        value: "30"
+      - key: GHOSTTRACE_TRUST_PROXY_HEADERS
+        value: "true"
+      - key: GHOSTTRACE_MAX_UPLOAD_BYTES
+        value: "5242880"
+      - key: GHOSTTRACE_AI_PROVIDER
+        value: none

@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (lint, types, tests, datasets, benchmark smoke)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - run: python -m ruff check --config pyproject.toml . ../scripts ../benchmarks
+      - run: python -m ruff format --check --config pyproject.toml . ../scripts ../benchmarks
+      - run: python -m mypy app
+      - run: python -m pytest --cov=app --cov-report=term
+      - name: Verify bundled datasets match the generator
+        run: python ../scripts/generate_datasets.py --verify
+      - name: Benchmark smoke run (2 held-out seeds)
+        run: python ../benchmarks/run_benchmark.py --seeds 2001-2002 --quick --output ../benchmarks/runs/ci.json
+
+  frontend:
+    name: Frontend (lint, types, tests, build)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  e2e:
+    name: End-to-end (Playwright, Chromium)
+    runs-on: ubuntu-24.04
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Backend environment
+        run: |
+          python -m venv backend/.venv
+          backend/.venv/bin/pip install -r backend/requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: npx playwright test e2e/incident-flow.spec.ts
+        working-directory: frontend
+        env:
+          PW_CHANNEL: bundled
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: frontend/test-results
+          retention-days: 7
+
+  docker:
+    name: Docker image build
+    runs-on: ubuntu-24.04
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ghosttrace:ci .
+      - name: Container smoke test
+        run: |
+          docker run -d --name gt -p 8000:8000 ghosttrace:ci
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/api/v1/ready && break; sleep 2; done
+          curl -fsS -X POST http://127.0.0.1:8000/api/v1/datasets/demo/faulty-deployment/import | grep -q '"incident_count":1'
+          curl -fsS http://127.0.0.1:8000/incidents | grep -q '<div id="root">'
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - run: pip-audit -r backend/requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm audit --audit-level=high --omit=dev
+        working-directory: frontend
