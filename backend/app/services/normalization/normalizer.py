@@ -352,7 +352,8 @@ def normalize_record(raw: Any, *, max_attributes: int = 64) -> NormalizedRecord:
         "status_code": _optional_int(canonical.get("status_code"), "status_code"),
         "target_service": _optional_str(canonical.get("target_service"), "target_service"),
         "error_type": _optional_str(canonical.get("error_type"), "error_type"),
-        "attributes": attributes,
+        # Sorted so equivalent records serialise identically (duplicate detection).
+        "attributes": dict(sorted(attributes.items())),
         "event_id_derived": derived,
     }
 

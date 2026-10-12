@@ -6,7 +6,6 @@ This module is pure (no database access) so it can be tested and benchmarked dir
 from __future__ import annotations
 
 import hashlib
-import json
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -80,10 +79,8 @@ class IngestionResult:
 
 
 def _fingerprint(event: CanonicalEvent) -> str:
-    payload = event.model_dump(mode="json", exclude={"event_id_derived"})
-    return hashlib.sha256(
-        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
+    payload = event.model_dump_json(exclude={"event_id_derived"})
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def ingest_bytes(
@@ -118,7 +115,8 @@ def ingest_bytes(
         else:
             items = parse_json_document(text)
 
-        seen: dict[str, tuple[str, int]] = {}
+        # event_id -> (first event, position). Content is only hashed on an ID collision.
+        seen: dict[str, tuple[CanonicalEvent, int]] = {}
         for item in items:
             summary.total_records += 1
             if summary.total_records > limits.max_records:
@@ -144,7 +142,7 @@ def _process(
     item: ParsedItem,
     summary: IngestionSummary,
     events: list[CanonicalEvent],
-    seen: dict[str, tuple[str, int]],
+    seen: dict[str, tuple[CanonicalEvent, int]],
     limits: IngestionLimits,
 ) -> None:
     def reject(message: str, field_name: str | None = None) -> None:
@@ -164,11 +162,10 @@ def _process(
         return
 
     event = normalized.event
-    fingerprint = _fingerprint(event)
     previous = seen.get(event.event_id)
     if previous is not None:
-        previous_fingerprint, previous_position = previous
-        if previous_fingerprint == fingerprint:
+        previous_event, previous_position = previous
+        if _fingerprint(previous_event) == _fingerprint(event):
             summary.duplicates += 1
             summary.warnings["duplicate_skipped"] += 1
         else:
@@ -179,7 +176,7 @@ def _process(
             )
         return
 
-    seen[event.event_id] = (fingerprint, item.position)
+    seen[event.event_id] = (event, item.position)
     summary.accepted += 1
     summary.warnings.update(normalized.warnings)
     if event.event_id_derived:

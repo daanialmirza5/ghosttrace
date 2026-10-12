@@ -5,8 +5,9 @@ from __future__ import annotations
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import datetime
+from typing import cast
 
-from sqlalchemy import delete, func, insert, or_, select
+from sqlalchemy import Table, delete, func, insert, or_, select
 from sqlalchemy.orm import Session
 
 from app.core.errors import NotFoundError
@@ -58,8 +59,10 @@ def create_import(
     session.add(record)
     session.flush()
     rows = [{"import_id": record.id, **event.model_dump()} for event in events]
+    # Core insert on the table (not the ORM bulk path): much faster for many rows.
+    table = cast(Table, EventRecord.__table__)
     for start in range(0, len(rows), _INSERT_BATCH):
-        session.execute(insert(EventRecord), rows[start : start + _INSERT_BATCH])
+        session.execute(insert(table), rows[start : start + _INSERT_BATCH])
     return record
 
 

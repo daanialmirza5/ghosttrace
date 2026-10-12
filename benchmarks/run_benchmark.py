@@ -96,9 +96,7 @@ def overlaps(incident: Any, window: dict[str, str] | None) -> bool:
 
 
 def run_one(name: str, seed: int, config: str) -> dict[str, Any]:
-    generated = generate_scenario(
-        name, seed, vary=True, config_overrides=CONFIGS[config]
-    )
+    generated = generate_scenario(name, seed, vary=True, config_overrides=CONFIGS[config])
     truth = generated.ground_truth
     content = generated.to_jsonl().encode()
 
@@ -150,9 +148,7 @@ def ingestion_check(name: str, seed: int) -> dict[str, Any]:
     generated = generate_scenario(name, seed, vary=True)
     lines = generated.to_jsonl().splitlines()
     corrupted_lines, corrupted = corrupt(lines, seed)
-    summary = ingest_bytes(
-        "\n".join(corrupted_lines).encode(), filename="x.jsonl"
-    ).summary
+    summary = ingest_bytes("\n".join(corrupted_lines).encode(), filename="x.jsonl").summary
     valid = len(lines) - corrupted
     return {
         "scenario": name,
@@ -162,8 +158,7 @@ def ingestion_check(name: str, seed: int) -> dict[str, Any]:
         "injected_malformed": corrupted,
         "accepted": summary.accepted,
         "rejected": summary.rejected,
-        "classified_correctly": summary.accepted == valid
-        and summary.rejected == corrupted,
+        "classified_correctly": summary.accepted == valid and summary.rejected == corrupted,
     }
 
 
@@ -199,9 +194,7 @@ def summarise(runs: list[dict[str, Any]]) -> dict[str, Any]:
         "insufficient_evidence_abstention_rate": rate(ambiguous, "abstained"),
         "control_runs": len(controls),
         "false_positive_rate": rate(controls, "false_positive"),
-        "spurious_incidents_in_fault_runs": sum(
-            r["spurious_incidents"] for r in faults
-        ),
+        "spurious_incidents_in_fault_runs": sum(r["spurious_incidents"] for r in faults),
     }
 
 
@@ -209,24 +202,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run the GhostTrace benchmark.")
     parser.add_argument("--seeds", default="2001-2010")
     parser.add_argument("--quick", action="store_true", help="standard config only")
-    parser.add_argument(
-        "--output", default=str(REPO / "benchmarks" / "results" / "latest.json")
-    )
+    parser.add_argument("--output", default=str(REPO / "benchmarks" / "results" / "latest.json"))
     args = parser.parse_args()
 
     seeds = parse_seeds(args.seeds)
     configs = ["standard"] if args.quick else list(CONFIGS)
     started = time.perf_counter()
     runs = [
-        run_one(name, seed, config)
-        for config in configs
-        for seed in seeds
-        for name in SCENARIOS
+        run_one(name, seed, config) for config in configs for seed in seeds for name in SCENARIOS
     ]
     ingestion = [ingestion_check(name, seed) for seed in seeds for name in SCENARIOS]
-    largest = max(
-        (r for r in runs if r["config"] == "standard"), key=lambda r: r["events"]
-    )
+    largest = max((r for r in runs if r["config"] == "standard"), key=lambda r: r["events"])
     peak_mb = memory_peak(largest["scenario"], largest["seed"])
 
     total_events = sum(r["events"] for r in runs)
@@ -235,9 +221,7 @@ def main() -> int:
     per_scenario = {}
     for config in configs:
         for name in SCENARIOS:
-            subset = [
-                r for r in runs if r["scenario"] == name and r["config"] == config
-            ]
+            subset = [r for r in runs if r["scenario"] == name and r["config"] == config]
             key = (
                 "top1_correct"
                 if name in FAULTS
@@ -274,8 +258,7 @@ def main() -> int:
             "cpu_count": os.cpu_count(),
         },
         "summary": {
-            config: summarise([r for r in runs if r["config"] == config])
-            for config in configs
+            config: summarise([r for r in runs if r["config"] == config]) for config in configs
         },
         "ingestion": {
             "records": sum(i["records"] for i in ingestion),
@@ -283,8 +266,7 @@ def main() -> int:
             "valid_records": sum(i["valid_records"] for i in ingestion),
             "accepted": sum(i["accepted"] for i in ingestion),
             "success_rate": round(
-                sum(i["accepted"] for i in ingestion)
-                / sum(i["valid_records"] for i in ingestion),
+                sum(i["accepted"] for i in ingestion) / sum(i["valid_records"] for i in ingestion),
                 4,
             ),
             "files_classified_exactly": rate(ingestion, "classified_correctly"),
@@ -310,13 +292,9 @@ def main() -> int:
     }
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(
-        json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n"
-    )
+    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
 
-    print(
-        f"seeds {args.seeds}, configs {configs}, {len(runs)} runs, {total_events} events"
-    )
+    print(f"seeds {args.seeds}, configs {configs}, {len(runs)} runs, {total_events} events")
     for config, summary in report["summary"].items():
         print(
             f"[{config}] detection {summary['detection_recall']:.0%}  "
