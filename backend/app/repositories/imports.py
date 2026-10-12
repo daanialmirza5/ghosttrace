@@ -14,6 +14,7 @@ from app.models.base import utcnow
 from app.models.comparisons import ComparisonRecord
 from app.models.imports import EventRecord, ImportRecord, new_import_id
 from app.models.incidents import IncidentRecord
+from app.models.reports import ReportRecord
 from app.schemas.events import CanonicalEvent, EventType, Severity
 from app.services.ingestion import IngestionSummary
 
@@ -85,6 +86,7 @@ def list_imports(
 
 def delete_import(session: Session, import_id: str) -> None:
     record = get_import(session, import_id)
+    session.execute(delete(ReportRecord).where(ReportRecord.import_id == record.id))
     session.execute(delete(IncidentRecord).where(IncidentRecord.import_id == record.id))
     session.execute(
         delete(ComparisonRecord).where(
