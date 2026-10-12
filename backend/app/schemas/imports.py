@@ -41,6 +41,9 @@ class ImportOut(BaseModel):
     first_event_at: datetime | None
     last_event_at: datetime | None
     services: list[str]
+    analysis_status: Literal["pending", "completed", "failed", "skipped"]
+    analysis_error: str | None
+    analysis_ms: float | None
     incident_count: int = 0
 
     @classmethod
@@ -67,6 +70,9 @@ class ImportOut(BaseModel):
             first_event_at=record.first_event_at,
             last_event_at=record.last_event_at,
             services=record.services or [],
+            analysis_status=record.analysis_status,
+            analysis_error=record.analysis_error,
+            analysis_ms=record.analysis_ms,
             incident_count=incident_count,
         )
 

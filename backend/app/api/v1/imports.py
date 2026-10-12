@@ -13,6 +13,7 @@ from app.api.deps import DatabaseDep, SessionDep, SettingsDep
 from app.core.errors import PayloadTooLargeError, UnprocessableError
 from app.core.timeutil import as_utc
 from app.repositories import imports as import_repo
+from app.repositories import incidents as incident_repo
 from app.repositories.imports import EventFilter
 from app.schemas.common import Page
 from app.schemas.events import EventOut, EventType, Severity
@@ -87,7 +88,8 @@ async def create_import(
                 declared_format=None if format == "auto" else format,
                 field_mapping=mapping,
             )
-            return ImportOut.from_record(record)
+            counts = incident_repo.incident_counts(session, [record.id])
+            return ImportOut.from_record(record, counts.get(record.id, 0))
 
     return await run_in_threadpool(work)
 
@@ -116,7 +118,8 @@ def import_demo(name: str, session: SessionDep, settings: SettingsDep) -> Import
         field_mapping=dataset.info.field_mapping,
         demo_dataset=dataset.info.name,
     )
-    return ImportOut.from_record(record)
+    counts = incident_repo.incident_counts(session, [record.id])
+    return ImportOut.from_record(record, counts.get(record.id, 0))
 
 
 @router.get("/imports", response_model=Page[ImportOut])
@@ -129,8 +132,9 @@ def list_imports(
     items, total = import_repo.list_imports(
         session, limit=limit, offset=offset, status=status_filter
     )
+    counts = incident_repo.incident_counts(session, [item.id for item in items])
     return Page(
-        items=[ImportOut.from_record(item) for item in items],
+        items=[ImportOut.from_record(item, counts.get(item.id, 0)) for item in items],
         total=total,
         limit=limit,
         offset=offset,
@@ -139,7 +143,9 @@ def list_imports(
 
 @router.get("/imports/{import_id}", response_model=ImportOut)
 def get_import(import_id: str, session: SessionDep) -> ImportOut:
-    return ImportOut.from_record(import_repo.get_import(session, import_id))
+    record = import_repo.get_import(session, import_id)
+    counts = incident_repo.incident_counts(session, [record.id])
+    return ImportOut.from_record(record, counts.get(record.id, 0))
 
 
 @router.delete("/imports/{import_id}", status_code=status.HTTP_204_NO_CONTENT)

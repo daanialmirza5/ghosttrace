@@ -11,7 +11,8 @@ from sqlalchemy.orm import Session
 
 from app.core.errors import NotFoundError
 from app.models.base import utcnow
-from app.models.imports import EventRecord, ImportRecord
+from app.models.imports import EventRecord, ImportRecord, new_import_id
+from app.models.incidents import IncidentRecord
 from app.schemas.events import CanonicalEvent, EventType, Severity
 from app.services.ingestion import IngestionSummary
 
@@ -28,8 +29,10 @@ def create_import(
     content_sha256: str,
     summary: IngestionSummary,
     events: Sequence[CanonicalEvent],
+    import_id: str | None = None,
 ) -> ImportRecord:
     record = ImportRecord(
+        id=import_id or new_import_id(),
         name=name,
         source_filename=source_filename,
         demo_dataset=demo_dataset,
@@ -81,6 +84,7 @@ def list_imports(
 
 def delete_import(session: Session, import_id: str) -> None:
     record = get_import(session, import_id)
+    session.execute(delete(IncidentRecord).where(IncidentRecord.import_id == record.id))
     session.execute(delete(EventRecord).where(EventRecord.import_id == record.id))
     session.delete(record)
 
@@ -100,6 +104,7 @@ class EventFilter:
     severities: tuple[str, ...] = ()
     event_types: tuple[str, ...] = ()
     trace_id: str | None = None
+    request_id: str | None = None
     search: str | None = None
 
 
@@ -117,6 +122,8 @@ def _apply_filter(query, import_id: str, flt: EventFilter):  # type: ignore[no-u
         query = query.where(EventRecord.event_type.in_(flt.event_types))
     if flt.trace_id:
         query = query.where(EventRecord.trace_id == flt.trace_id)
+    if flt.request_id:
+        query = query.where(EventRecord.request_id == flt.request_id)
     if flt.search:
         escaped = flt.search.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
         pattern = f"%{escaped}%"

@@ -50,6 +50,10 @@ class ImportRecord(Base):
     first_event_at: Mapped[datetime | None] = mapped_column(UTCDateTime())
     last_event_at: Mapped[datetime | None] = mapped_column(UTCDateTime())
     services: Mapped[list[str]] = mapped_column(JSON, default=list)
+    analysis_status: Mapped[str] = mapped_column(String(16), default="pending")
+    analysis_error: Mapped[str | None] = mapped_column(Text)
+    analysis_ms: Mapped[float | None] = mapped_column(Float)
+    data_quality: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
 
     events: Mapped[list[EventRecord]] = relationship(
         back_populates="import_record", cascade="all, delete-orphan", passive_deletes=True

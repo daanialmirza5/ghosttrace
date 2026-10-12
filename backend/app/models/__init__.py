@@ -2,5 +2,6 @@
 
 from app.models.base import Base
 from app.models.imports import EventRecord, ImportRecord
+from app.models.incidents import IncidentRecord
 
-__all__ = ["Base", "EventRecord", "ImportRecord"]
+__all__ = ["Base", "EventRecord", "ImportRecord", "IncidentRecord"]
