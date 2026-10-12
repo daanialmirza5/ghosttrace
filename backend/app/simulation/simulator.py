@@ -158,8 +158,17 @@ class Simulator:
     def latency(self, service: str) -> float:
         return BASE_LATENCY_MS[service] * self.rng.lognormvariate(0.0, 0.35)
 
-    def emit(self, t: float, service: str, severity: str, event_type: str, message: str,
-             *, ground_truth: bool = False, **fields: Any) -> dict[str, Any]:
+    def emit(
+        self,
+        t: float,
+        service: str,
+        severity: str,
+        event_type: str,
+        message: str,
+        *,
+        ground_truth: bool = False,
+        **fields: Any,
+    ) -> dict[str, Any]:
         record: dict[str, Any] = {
             "_t": t,
             "_gt": ground_truth,
@@ -329,28 +338,51 @@ class Simulator:
         fields = self.trace_fields(ctx, span_id)
         if timed_out:
             self.emit(
-                end, ctx.service, "error", "timeout",
+                end,
+                ctx.service,
+                "error",
+                "timeout",
                 f"{operation} on {target} timed out after {int(timeout_ms)}ms",
-                target_service=target, duration_ms=round(observed, 2),
-                error_type="ReadTimeout", attributes={"operation": operation}, **fields,
+                target_service=target,
+                duration_ms=round(observed, 2),
+                error_type="ReadTimeout",
+                attributes={"operation": operation},
+                **fields,
             )
-            return CallResult(end, False, 504, "ReadTimeout", timed_out=True,
-                              message=f"{target} timed out")
+            return CallResult(
+                end, False, 504, "ReadTimeout", timed_out=True, message=f"{target} timed out"
+            )
         if effect is not None and effect.fail:
             self.emit(
-                end, ctx.service, "error", "dependency_call",
+                end,
+                ctx.service,
+                "error",
+                "dependency_call",
                 f"{operation} on {target} failed: {effect.message}",
-                target_service=target, duration_ms=round(observed, 2),
-                error_type=effect.error_type, attributes={"operation": operation}, **fields,
+                target_service=target,
+                duration_ms=round(observed, 2),
+                error_type=effect.error_type,
+                attributes={"operation": operation},
+                **fields,
             )
-            return CallResult(end, False, effect.status_code, effect.error_type,
-                              message=f"{target}: {effect.message}")
+            return CallResult(
+                end,
+                False,
+                effect.status_code,
+                effect.error_type,
+                message=f"{target}: {effect.message}",
+            )
         severity = "warning" if observed > timeout_ms * 0.6 else "info"
         self.emit(
-            end, ctx.service, severity, "dependency_call",
+            end,
+            ctx.service,
+            severity,
+            "dependency_call",
             f"{operation} on {target} completed" + (" slowly" if severity == "warning" else ""),
-            target_service=target, duration_ms=round(observed, 2),
-            attributes={"operation": operation}, **fields,
+            target_service=target,
+            duration_ms=round(observed, 2),
+            attributes={"operation": operation},
+            **fields,
         )
         return CallResult(end, True, 200)
 
@@ -399,12 +431,18 @@ class Simulator:
             attempt += 1
             fields = self.trace_fields(ctx, self.new_id(16)) if self.config.tracing_enabled else {}
             self.emit(
-                cursor, "orders-service", "warning", "retry",
+                cursor,
+                "orders-service",
+                "warning",
+                "retry",
                 f"retrying reserve on inventory-service (attempt {attempt}/{max_attempts}) "
                 f"after {result.error_type or 'error'}",
                 target_service="inventory-service" if self.config.tracing_enabled else None,
-                attributes={"retry_attempt": attempt, "max_attempts": max_attempts,
-                            "backoff_ms": backoff_ms},
+                attributes={
+                    "retry_attempt": attempt,
+                    "max_attempts": max_attempts,
+                    "backoff_ms": backoff_ms,
+                },
                 **fields,
             )
             result = self.call_service(ctx, "inventory-service", "reserve", cursor)

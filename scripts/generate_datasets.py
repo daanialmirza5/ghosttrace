@@ -92,8 +92,9 @@ def _csv_text(events: list[dict[str, object]]) -> str:
     writer = csv.writer(buffer, lineterminator="\n")
     writer.writerow(CSV_COLUMNS)
     for event in events:
-        writer.writerow(["" if event.get(field) is None else event[field]
-                         for field in CSV_COLUMNS.values()])
+        writer.writerow(
+            ["" if event.get(field) is None else event[field] for field in CSV_COLUMNS.values()]
+        )
     return buffer.getvalue()
 
 
@@ -105,13 +106,17 @@ def build_files() -> dict[Path, str]:
         files[TRUTH_DIR / f"{name}.json"] = json.dumps(scenario.ground_truth, indent=2) + "\n"
         if name == "faulty-deployment":
             files[DEMO_DIR / "faulty-deployment.csv"] = _csv_text(scenario.events)
-            files[TRUTH_DIR / "faulty-deployment.csv.json"] = json.dumps(
-                {**scenario.ground_truth, "csv_field_mapping": CSV_COLUMNS}, indent=2
-            ) + "\n"
+            files[TRUTH_DIR / "faulty-deployment.csv.json"] = (
+                json.dumps({**scenario.ground_truth, "csv_field_mapping": CSV_COLUMNS}, indent=2)
+                + "\n"
+            )
     files[DEMO_DIR / "malformed-sample.jsonl"] = "\n".join(MALFORMED_LINES) + "\n"
-    files[TRUTH_DIR / "malformed-sample.json"] = json.dumps(
-        {"scenario": "malformed-sample", "expected_import": MALFORMED_EXPECTED}, indent=2
-    ) + "\n"
+    files[TRUTH_DIR / "malformed-sample.json"] = (
+        json.dumps(
+            {"scenario": "malformed-sample", "expected_import": MALFORMED_EXPECTED}, indent=2
+        )
+        + "\n"
+    )
     return files
 
 
@@ -121,15 +126,17 @@ def sha256(text: str) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--verify", action="store_true",
-                        help="regenerate in memory and compare with files on disk")
+    parser.add_argument(
+        "--verify", action="store_true", help="regenerate in memory and compare with files on disk"
+    )
     args = parser.parse_args()
 
     files = build_files()
     manifest = {
         "seed": DEMO_SEED,
-        "files": {path.relative_to(REPO).as_posix(): sha256(text)
-                  for path, text in sorted(files.items())},
+        "files": {
+            path.relative_to(REPO).as_posix(): sha256(text) for path, text in sorted(files.items())
+        },
     }
 
     if args.verify:
@@ -141,8 +148,9 @@ def main() -> int:
             if on_disk != digest or recorded.get(relative) != digest:
                 problems += 1
                 print(f"MISMATCH {relative}")
-        print("OK: all datasets match the generator" if not problems
-              else f"{problems} file(s) differ")
+        print(
+            "OK: all datasets match the generator" if not problems else f"{problems} file(s) differ"
+        )
         return 1 if problems else 0
 
     for path, text in files.items():
