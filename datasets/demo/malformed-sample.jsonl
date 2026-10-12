@@ -1,0 +1,15 @@
+{"event_id":"m-1","timestamp":"2026-03-14T09:00:00Z","service":"api-gateway","severity":"info","message":"valid record"}
+{"event_id":"m-2","timestamp":"2026-03-14T09:00:01Z","service":"api-gateway","severity":"error","message":"valid error","error_type":"Boom"}
+{"event_id":"m-3","timestamp":"2026-03-14T09:00:02Z","service":"api-gateway"
+{"event_id":"m-4","timestamp":"not a time","service":"api-gateway","severity":"info"}
+{"event_id":"m-5","timestamp":"2026-03-14T09:00:04Z","severity":"info","message":"x"}
+{"event_id":"m-6","timestamp":"2026-03-14T09:00:05Z","service":"api-gateway","severity":"loud"}
+["an","array","is","not","an","event"]
+{"event_id":"m-1","timestamp":"2026-03-14T09:00:00Z","service":"api-gateway","severity":"info","message":"valid record"}
+{"event_id":"m-2","timestamp":"2026-03-14T09:00:09Z","service":"orders-service","severity":"info","message":"same id, different content"}
+{"event_id":"m-10","timestamp":"2026-03-14T09:00:10Z","service":"api-gateway","severity":"info","duration_ms":"fast"}
+{"event_id":"m-11","timestamp":"2026-03-14 09:00:11","service":"api-gateway","severity":"warn","message":"naive timestamp is accepted as UTC with a warning"}
+{"event_id":"m-12","timestamp":1773478812000,"service":"api-gateway","level":"info","msg":"epoch milliseconds and aliases"}
+{"event_id":"m-13","ts":"2026-03-14T09:00:13Z","service":"api-gateway","severity":"info","level":"error"}
+
+{"event_id":"m-14","timestamp":"2026-03-14T09:00:14Z","service":"api gateway!","severity":"info"}

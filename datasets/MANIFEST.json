@@ -1,0 +1,26 @@
+{
+  "seed": 42,
+  "files": {
+    "datasets/demo/ambiguous-partition.jsonl": "93119785ebca92a9c1b9f090af04099ce0ef155aee2d12d5cc81cb15e45b4b48",
+    "datasets/demo/cache-failure.jsonl": "832ec3b242404a4765b200fc8d58678f747b5bc863cb91a6a1ab2abcc4edc150",
+    "datasets/demo/catalog.json": "d10b4de43f01ab6455dd801fe61fdf9db6e1828fa6fe511873d39435d0032f98",
+    "datasets/demo/db-connection-exhaustion.jsonl": "69d3b52e4b4aa7046580b3f751075ea4c6e28e7ea470b18f3bbc652d15413138",
+    "datasets/demo/downstream-api-timeout.jsonl": "03a5419e27475c76ca129f7b0691e9a9fa7ecb86a3887fd96976183f024db79e",
+    "datasets/demo/faulty-deployment.csv": "0a0350bdca308927e0778566822989562c24ac78d5732bdde17a744def294333",
+    "datasets/demo/faulty-deployment.jsonl": "0911d86b58fff6ab09a81a5b98066230609eb781c132bf653c6d14025ec1b4de",
+    "datasets/demo/healthy-control.jsonl": "fd8733b179925719a4d0055051b5bed5e8f47b42d380a195a516d59a04f7c05a",
+    "datasets/demo/malformed-sample.jsonl": "72d0443bca6ee1f95ba9d3fb22070b10fe4c3e28a8e4074e28283459f6470496",
+    "datasets/demo/retry-storm.jsonl": "541c22714d056a55c726d7263973e45fc187029f212febc25ad0989e2ae11a38",
+    "datasets/demo/unrelated-noise.jsonl": "0ef97b50bd9cbf4abb2d18d5a064b97a2d1fe62f5f30c224854e06f7f836f4d0",
+    "datasets/ground-truth/ambiguous-partition.json": "aa055ffd8ad4d76f8d465f202ad14a5331f09d4915bf5237964d49ebac2a4c34",
+    "datasets/ground-truth/cache-failure.json": "7f6fe6edb362c450a9a6161bd564a4975ab743b0c6ad4887ef8c174dfa0b34d9",
+    "datasets/ground-truth/db-connection-exhaustion.json": "d49b33891da6c54053148dea93f8732188a70736e5dea157888ef931afa169ee",
+    "datasets/ground-truth/downstream-api-timeout.json": "972658838f5036d3f114a451bcd9df241f068c60378e9d4802c0710140609c99",
+    "datasets/ground-truth/faulty-deployment.csv.json": "d7c8cc5be938675cecc00cebff5246f71c4f9e603d4c40f75054927b1c39ba2e",
+    "datasets/ground-truth/faulty-deployment.json": "3be3ef53909a7fc68b8567d96948d3a2165f23b7a5735eaa7937e4a480dac0af",
+    "datasets/ground-truth/healthy-control.json": "f41ec851dbc69bb482317ec65205b205a3b2afb105d5427c5da186a193dad780",
+    "datasets/ground-truth/malformed-sample.json": "5ff4fc48cbb06033625ae57467da8b7d3ff4a2347105dc567fe1b323240e58c5",
+    "datasets/ground-truth/retry-storm.json": "fb66c8544514f3b4c783f1d99c649b5cc8ab2d1f4fc0427a0fd851e39fecbc3b",
+    "datasets/ground-truth/unrelated-noise.json": "0ba24e7ea01eb2b7c7b61b6b29a8ec516bd16241eb200eab47969e4a0164db10"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "scenario": "downstream-api-timeout",
+  "title": "Downstream API timeout",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "root_cause",
+  "root_cause_service": "payment-provider",
+  "fault_window": {
+    "start": "2026-03-14T09:04:00.000Z",
+    "end": "2026-03-14T09:07:30.000Z"
+  },
+  "fault_event_ids": [],
+  "description": "The external payment-provider (which emits no logs) slows down and then exceeds the 3s client timeout; payments-service and the gateway return errors.",
+  "event_count": 2217
+}

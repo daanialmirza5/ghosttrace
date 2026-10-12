@@ -1,0 +1,12 @@
+{
+  "scenario": "unrelated-noise",
+  "title": "Unrelated noise",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "no_incident",
+  "root_cause_service": null,
+  "fault_window": null,
+  "fault_event_ids": [],
+  "description": "Healthy traffic plus scattered unrelated warnings and errors, a higher transient error rate and a deployment that changes nothing. No incident was injected.",
+  "event_count": 2303
+}

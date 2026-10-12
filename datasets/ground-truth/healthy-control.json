@@ -1,0 +1,12 @@
+{
+  "scenario": "healthy-control",
+  "title": "Healthy control execution",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "no_incident",
+  "root_cause_service": null,
+  "fault_window": null,
+  "fault_event_ids": [],
+  "description": "Normal traffic with a realistic background rate of transient errors. No incident was injected.",
+  "event_count": 2283
+}

@@ -1,0 +1,92 @@
+{
+  "datasets": [
+    {
+      "name": "db-connection-exhaustion",
+      "title": "Checkout and order lookups failing",
+      "summary": "Order requests start timing out and failing mid-morning.",
+      "filename": "db-connection-exhaustion.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "downstream-api-timeout",
+      "title": "Payments timing out",
+      "summary": "Checkout latency climbs and payments begin to fail.",
+      "filename": "downstream-api-timeout.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "faulty-deployment",
+      "title": "Errors after a release",
+      "summary": "Browse and checkout errors appear during a normal release window.",
+      "filename": "faulty-deployment.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "retry-storm",
+      "title": "Inventory overload",
+      "summary": "Inventory requests are rejected under heavy load.",
+      "filename": "retry-storm.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "cache-failure",
+      "title": "Slow product pages",
+      "summary": "Product pages slow down and some requests fail.",
+      "filename": "cache-failure.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "healthy-control",
+      "title": "Normal traffic (control)",
+      "summary": "Ten minutes of ordinary traffic.",
+      "filename": "healthy-control.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "ambiguous-partition",
+      "title": "Simultaneous failures, no tracing",
+      "summary": "Two services fail at once in a system without tracing.",
+      "filename": "ambiguous-partition.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "unrelated-noise",
+      "title": "Noisy but healthy",
+      "summary": "Scattered warnings, errors and one deployment.",
+      "filename": "unrelated-noise.jsonl",
+      "format": "jsonl"
+    },
+    {
+      "name": "faulty-deployment-csv",
+      "title": "Errors after a release (CSV)",
+      "summary": "The release-window dataset as CSV with non-canonical column names, imported through a field mapping.",
+      "filename": "faulty-deployment.csv",
+      "format": "csv",
+      "field_mapping": {
+        "id": "event_id",
+        "time": "timestamp",
+        "svc": "service",
+        "env": "environment",
+        "level": "severity",
+        "kind": "event_type",
+        "text": "message",
+        "trace": "trace_id",
+        "span": "span_id",
+        "parent": "parent_span_id",
+        "req": "request_id",
+        "build_version": "deployment_version",
+        "latency": "duration_ms",
+        "http_code": "status_code",
+        "peer": "target_service",
+        "error": "error_type"
+      }
+    },
+    {
+      "name": "malformed-sample",
+      "title": "Malformed records sample",
+      "summary": "Fifteen lines exercising validation: bad JSON, unknown severities, duplicates, conflicting fields.",
+      "filename": "malformed-sample.jsonl",
+      "format": "jsonl"
+    }
+  ]
+}

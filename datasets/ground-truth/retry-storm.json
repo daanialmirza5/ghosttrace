@@ -1,0 +1,17 @@
+{
+  "scenario": "retry-storm",
+  "title": "Retry storm",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "root_cause",
+  "root_cause_service": "orders-service",
+  "fault_window": {
+    "start": "2026-03-14T09:04:00.000Z",
+    "end": "2026-03-14T09:07:30.000Z"
+  },
+  "fault_event_ids": [
+    "ev-076b6e-00887"
+  ],
+  "description": "orders-service changes its retry policy to 8 attempts without backoff. A short inventory-service latency blip triggers retries that overload inventory-service until the policy is reverted.",
+  "event_count": 2366
+}

@@ -1,0 +1,9 @@
+{
+  "scenario": "malformed-sample",
+  "expected_import": {
+    "records": 14,
+    "accepted": 4,
+    "duplicates": 1,
+    "rejected": 9
+  }
+}

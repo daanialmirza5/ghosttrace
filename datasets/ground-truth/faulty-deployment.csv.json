@@ -1,0 +1,35 @@
+{
+  "scenario": "faulty-deployment",
+  "title": "Faulty deployment",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "root_cause",
+  "root_cause_service": "inventory-service",
+  "fault_window": {
+    "start": "2026-03-14T09:04:00.000Z",
+    "end": "2026-03-14T09:07:30.000Z"
+  },
+  "fault_event_ids": [
+    "ev-1eef0e-00887"
+  ],
+  "description": "inventory-service 2.4.0 is rolled out and ~40% of its requests throw NullPointerException; errors propagate to orders-service and the gateway.",
+  "event_count": 2181,
+  "csv_field_mapping": {
+    "id": "event_id",
+    "time": "timestamp",
+    "svc": "service",
+    "env": "environment",
+    "level": "severity",
+    "kind": "event_type",
+    "text": "message",
+    "trace": "trace_id",
+    "span": "span_id",
+    "parent": "parent_span_id",
+    "req": "request_id",
+    "build_version": "deployment_version",
+    "latency": "duration_ms",
+    "http_code": "status_code",
+    "peer": "target_service",
+    "error": "error_type"
+  }
+}

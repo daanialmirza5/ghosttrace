@@ -1,0 +1,17 @@
+{
+  "scenario": "db-connection-exhaustion",
+  "title": "Database connection exhaustion",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "root_cause",
+  "root_cause_service": "orders-db",
+  "fault_window": {
+    "start": "2026-03-14T09:04:00.000Z",
+    "end": "2026-03-14T09:07:30.000Z"
+  },
+  "fault_event_ids": [
+    "ev-789b8a-00775"
+  ],
+  "description": "orders-db reaches max_connections; orders-service connection-pool requests time out and checkout/order-status calls fail upstream.",
+  "event_count": 2039
+}

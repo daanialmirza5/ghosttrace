@@ -1,0 +1,15 @@
+{
+  "scenario": "ambiguous-partition",
+  "title": "Ambiguous incident with insufficient evidence",
+  "seed": 42,
+  "varied": false,
+  "expected_outcome": "insufficient_evidence",
+  "root_cause_service": null,
+  "fault_window": {
+    "start": "2026-03-14T09:04:00.000Z",
+    "end": "2026-03-14T09:07:30.000Z"
+  },
+  "fault_event_ids": [],
+  "description": "orders-service and payments-service fail simultaneously because of a network partition that is not itself logged. Tracing is disabled, so no event links the failures to a cause. The correct answer is 'insufficient evidence'.",
+  "event_count": 1393
+}
