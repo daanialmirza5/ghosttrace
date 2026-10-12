@@ -140,8 +140,11 @@ export function ComparisonPage() {
   const [chosenTarget, setTarget] = useState<ExecutionRef | null>(null);
 
   const items = imports.data?.items.filter((item) => item.status !== "failed") ?? [];
-  // Until the user picks, default to a healthy import as baseline and a failed one as target.
-  const healthy = items.find((item) => item.incident_count === 0);
+  // Until the user picks: the largest incident-free import as baseline, the newest import
+  // with incidents as target.
+  const healthy = items
+    .filter((item) => item.incident_count === 0)
+    .reduce<ImportSummary | undefined>((best, item) => (!best || item.accepted > best.accepted ? item : best), undefined);
   const failed = items.find((item) => item.incident_count > 0);
   const baseline = chosenBaseline ?? { import_id: healthy?.id ?? "", label: healthy ? "healthy" : "baseline" };
   const target = chosenTarget ?? { import_id: failed?.id ?? "", label: failed ? "failed" : "target" };

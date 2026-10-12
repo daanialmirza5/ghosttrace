@@ -53,6 +53,8 @@ test("@screenshots capture the main views", async ({ page, request }) => {
   await shot(page, "replay");
 
   await page.goto("/compare");
+  const targetImport = page.getByRole("group", { name: "Target (e.g. failed)" }).getByLabel("Import");
+  await targetImport.selectOption({ label: "Slow product pages (1 incidents)" });
   await page.getByRole("button", { name: "Compare executions" }).click();
   await expect(page.getByText("Notable differences")).toBeVisible();
   await shot(page, "comparison");

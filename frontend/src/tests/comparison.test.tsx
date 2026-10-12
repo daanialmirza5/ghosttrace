@@ -60,7 +60,16 @@ test("incomparable executions are flagged with reasons", () => {
 
 test("defaults to a healthy baseline and failed target, then submits", async () => {
   const { calls } = mockApi({
-    "GET /imports": { items: [importSummary({ id: "imp_h", name: "healthy", incident_count: 0 }), importSummary({ id: "imp_f", name: "failed", incident_count: 1 })], total: 2, limit: 100, offset: 0 },
+    "GET /imports": {
+      items: [
+        importSummary({ id: "imp_small", name: "tiny sample", incident_count: 0, accepted: 4 }),
+        importSummary({ id: "imp_h", name: "healthy", incident_count: 0, accepted: 2283 }),
+        importSummary({ id: "imp_f", name: "failed", incident_count: 1 }),
+      ],
+      total: 3,
+      limit: 100,
+      offset: 0,
+    },
     "GET /incidents": { items: [], total: 0, limit: 50, offset: 0 },
     "POST /comparisons": { status: 201, body: result() },
   });

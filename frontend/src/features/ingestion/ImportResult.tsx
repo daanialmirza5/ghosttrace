@@ -11,7 +11,7 @@ export function ImportResult({ result }: { result: ImportSummary }) {
   return (
     <Card title={<span className="flex items-center gap-2"><Icon className={`h-4 w-4 ${tone}`} aria-hidden /> Import summary: {result.name}</span>}>
       <div aria-live="polite" className="space-y-4">
-        <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-5">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm sm:grid-cols-3 lg:grid-cols-5">
           {[
             ["Status", <Badge key="s" tone={result.status === "completed" ? "green" : result.status === "failed" ? "red" : "amber"}>{humanize(result.status)}</Badge>],
             ["Records read", formatNumber(result.total_records)],
