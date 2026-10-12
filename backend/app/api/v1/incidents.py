@@ -8,6 +8,7 @@ from typing import Annotated
 from fastapi import APIRouter, Query
 
 from app.api.deps import SessionDep
+from app.core.errors import UnprocessableError
 from app.core.timeutil import as_utc
 from app.repositories import imports as import_repo
 from app.repositories import incidents as incident_repo
@@ -24,7 +25,9 @@ from app.schemas.incidents import (
     TimelineOut,
 )
 from app.schemas.incidents import Severity as IncidentSeverity
+from app.schemas.replay import ReplayOut, ReplayRequest
 from app.services import incidents as incident_service
+from app.services.replay import ReplayFilter, ReplayTooLargeError, build_replay
 
 router = APIRouter(tags=["incidents"])
 
@@ -110,3 +113,23 @@ def get_incident_event(incident_id: str, event_id: str, session: SessionDep) -> 
 @router.get("/imports/{import_id}/graph", response_model=GraphOut)
 def get_import_graph(import_id: str, session: SessionDep) -> GraphOut:
     return incident_service.import_graph(session, import_repo.get_import(session, import_id))
+
+
+@router.post("/incidents/{incident_id}/replay", response_model=ReplayOut)
+def create_replay(incident_id: str, request: ReplayRequest, session: SessionDep) -> ReplayOut:
+    """Build a deterministic, frame-by-frame replay of the incident window.
+
+    The same incident and filters always produce the same ``replay_id`` and frames.
+    """
+    record = incident_repo.get_incident(session, incident_id)
+    flt = ReplayFilter(
+        services=tuple(sorted(set(request.services))),
+        severities=tuple(sorted({item.value for item in request.severities})),
+        categories=tuple(sorted(set(request.categories))),
+    )
+    events = incident_service.window_events(session, record)
+    try:
+        replay = build_replay(record.id, events, flt, max_frames=request.max_frames)
+    except ReplayTooLargeError as exc:
+        raise UnprocessableError(str(exc)) from exc
+    return ReplayOut.model_validate(replay)
