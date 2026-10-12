@@ -399,7 +399,13 @@ def _variation(seed: int) -> dict[str, float]:
     }
 
 
-def generate_scenario(name: str, seed: int, *, vary: bool = False) -> GeneratedScenario:
+def generate_scenario(
+    name: str,
+    seed: int,
+    *,
+    vary: bool = False,
+    config_overrides: dict[str, Any] | None = None,
+) -> GeneratedScenario:
     """Generate one scenario.
 
     With ``vary=False`` (demo datasets) the timing is fixed: 600 s of traffic starting at
@@ -424,6 +430,7 @@ def generate_scenario(name: str, seed: int, *, vary: bool = False) -> GeneratedS
     overrides = dict(spec.config_overrides)
     if "noise_error_rate" in overrides and vary:
         overrides["noise_error_rate"] = max(overrides["noise_error_rate"], config.noise_error_rate)
+    overrides.update(config_overrides or {})
     config = replace(config, **overrides)
 
     sim = Simulator(config, spec.fault_factory(window.start_s, window.end_s))
