@@ -179,7 +179,7 @@ def memory_peak(name: str, seed: int) -> float:
 
 def pct(values: list[float], q: float) -> float:
     ordered = sorted(values)
-    return ordered[min(len(ordered) - 1, int(round(q * (len(ordered) - 1))))]
+    return ordered[min(len(ordered) - 1, round(q * (len(ordered) - 1)))]
 
 
 def rate(items: list[dict[str, Any]], key: str) -> float | None:
