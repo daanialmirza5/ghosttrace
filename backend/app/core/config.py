@@ -53,6 +53,10 @@ class Settings(BaseSettings):
 
     # Simple per-client limit for mutating requests (POST/PUT/DELETE). 0 disables it.
     rate_limit_per_minute: int = Field(default=60, ge=0)
+    # Only enable behind a trusted reverse proxy that sets X-Forwarded-For.
+    trust_proxy_headers: bool = False
+    # Serve interactive OpenAPI docs at /docs and /redoc.
+    enable_docs: bool = True
 
     demo_datasets_dir: Path = REPO_DIR / "datasets" / "demo"
 

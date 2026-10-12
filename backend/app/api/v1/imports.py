@@ -19,7 +19,7 @@ from app.schemas.common import Page
 from app.schemas.events import EventOut, EventType, Severity
 from app.schemas.imports import DemoDatasetOut, ImportOut, ImportStatus
 from app.services import demo_datasets
-from app.services.imports import import_content
+from app.services.imports import import_content, maybe_purge_expired_imports
 
 router = APIRouter(tags=["imports"])
 
@@ -89,7 +89,10 @@ async def create_import(
                 field_mapping=mapping,
             )
             counts = incident_repo.incident_counts(session, [record.id])
-            return ImportOut.from_record(record, counts.get(record.id, 0))
+            out = ImportOut.from_record(record, counts.get(record.id, 0))
+        with database.session_factory() as session:
+            maybe_purge_expired_imports(session, settings)
+        return out
 
     return await run_in_threadpool(work)
 

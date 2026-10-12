@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import time
 from datetime import timedelta
 
 from sqlalchemy.orm import Session
@@ -87,6 +88,20 @@ def import_content(
         record.data_quality = data_quality
         session.add_all(incidents)
     return record
+
+
+_last_purge = 0.0
+_PURGE_INTERVAL_SECONDS = 600.0
+
+
+def maybe_purge_expired_imports(session: Session, settings: Settings) -> int:
+    """Run retention cleanup at most every 10 minutes (called after imports)."""
+    global _last_purge
+    now = time.monotonic()
+    if now - _last_purge < _PURGE_INTERVAL_SECONDS:
+        return 0
+    _last_purge = now
+    return purge_expired_imports(session, settings)
 
 
 def purge_expired_imports(session: Session, settings: Settings) -> int:

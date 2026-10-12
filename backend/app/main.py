@@ -17,6 +17,12 @@ from app.core.database import Database
 from app.core.errors import register_error_handlers
 from app.core.logging import configure_logging
 from app.core.migrations import upgrade_to_head
+from app.core.security import (
+    BodySizeLimitMiddleware,
+    RateLimitMiddleware,
+    SecurityHeadersMiddleware,
+)
+from app.services.imports import purge_expired_imports
 
 logger = logging.getLogger("ghosttrace")
 
@@ -31,6 +37,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             if settings.auto_migrate:
                 upgrade_to_head(settings.database_url)
+            with app.state.database.session_factory() as session:
+                purged = purge_expired_imports(session, settings)
+            if purged:
+                logger.info("Retention cleanup removed %d expired imports", purged)
         except Exception as exc:
             # Keep serving so /ready can report the failure instead of crash-looping.
             logger.exception("Startup initialisation failed")
@@ -46,6 +56,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "and review evidence-backed root-cause hypotheses."
         ),
         lifespan=lifespan,
+        docs_url="/docs" if settings.enable_docs else None,
+        redoc_url="/redoc" if settings.enable_docs else None,
+        openapi_url="/openapi.json" if settings.enable_docs else None,
     )
     app.state.settings = settings
     app.state.database = Database(settings)
@@ -70,6 +83,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         response = await call_next(request)
         response.headers["X-Request-ID"] = request_id
         return response
+
+    # Outermost first: headers on every response, then size and rate limits.
+    app.add_middleware(
+        RateLimitMiddleware,
+        per_minute=settings.rate_limit_per_minute,
+        trust_proxy_headers=settings.trust_proxy_headers,
+    )
+    app.add_middleware(BodySizeLimitMiddleware, max_bytes=settings.max_upload_bytes + 1024 * 1024)
+    app.add_middleware(SecurityHeadersMiddleware)
 
     register_error_handlers(app)
     app.include_router(api_router)
