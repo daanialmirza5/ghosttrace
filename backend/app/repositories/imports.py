@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.core.errors import NotFoundError
 from app.models.base import utcnow
+from app.models.comparisons import ComparisonRecord
 from app.models.imports import EventRecord, ImportRecord, new_import_id
 from app.models.incidents import IncidentRecord
 from app.schemas.events import CanonicalEvent, EventType, Severity
@@ -85,6 +86,14 @@ def list_imports(
 def delete_import(session: Session, import_id: str) -> None:
     record = get_import(session, import_id)
     session.execute(delete(IncidentRecord).where(IncidentRecord.import_id == record.id))
+    session.execute(
+        delete(ComparisonRecord).where(
+            or_(
+                ComparisonRecord.baseline_import_id == record.id,
+                ComparisonRecord.target_import_id == record.id,
+            )
+        )
+    )
     session.execute(delete(EventRecord).where(EventRecord.import_id == record.id))
     session.delete(record)
 
